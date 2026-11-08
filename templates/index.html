@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ru_tube - 유튜브 & 음악 다운로더</title>
+  <title>ru_tube Studio - AI 쇼츠 & 롱폼 자동화 제작기</title>
   <link rel="stylesheet" href="/static/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,84 +11,145 @@
 </head>
 <body>
   <div class="app-container">
+    <!-- 헤더 -->
     <header class="header">
       <div class="logo">
-        <span class="logo-icon">▶</span>
-        <span class="logo-text">ru<span class="highlight">_tube</span></span>
+        <span class="logo-icon">🎬</span>
+        <span class="logo-text">ru<span class="highlight">_tube</span> Studio</span>
       </div>
-      <p class="subtitle">고화질 영상(MP4) 및 고음질 음원(MP3) 간편 다운로더</p>
+      <p class="subtitle">대본만 입력하면 AI 음성 + 자막 + 배경이 합쳐진 쇼츠/롱폼 영상이 자동 완성됩니다!</p>
     </header>
 
-    <main class="main-content">
-      <!-- 입력 섹션 -->
-      <section class="card input-card">
-        <form id="url-form">
-          <div class="input-wrapper">
-            <input 
-              type="text" 
-              id="youtube-url" 
-              placeholder="YouTube 영상 링크를 여기에 붙여넣으세요 (예: https://www.youtube.com/watch?v=...)" 
-              required
-              autocomplete="off"
-            >
-            <button type="submit" id="fetch-btn" class="btn btn-primary">
-              <span class="btn-text">조회하기</span>
-              <span class="spinner" hidden></span>
-            </button>
+    <main class="main-content grid-layout">
+      <!-- 1. 비디오 제작 폼 -->
+      <section class="card studio-card">
+        <form id="generate-form">
+          <!-- 포맷 선택 -->
+          <div class="form-group">
+            <label class="form-label">1. 영상 형식 선택</label>
+            <div class="format-selector">
+              <label class="format-option active" id="opt-shorts">
+                <input type="radio" name="format" value="shorts" checked>
+                <div class="format-content">
+                  <span class="format-icon">📱</span>
+                  <div class="format-info">
+                    <strong>쇼츠 / 릴스 (Shorts)</strong>
+                    <span>9:16 세로형 (유튜브 쇼츠, 틱톡)</span>
+                  </div>
+                </div>
+              </label>
+
+              <label class="format-option" id="opt-longform">
+                <input type="radio" name="format" value="longform">
+                <div class="format-content">
+                  <span class="format-icon">🎬</span>
+                  <div class="format-info">
+                    <strong>일반 롱폼 (Long-form)</strong>
+                    <span>16:9 가로형 (유튜브 일반 영상)</span>
+                  </div>
+                </div>
+              </label>
+            </div>
           </div>
+
+          <!-- 영상 제목 -->
+          <div class="form-group">
+            <label class="form-label" for="video-title">2. 영상 제목</label>
+            <input type="text" id="video-title" class="form-input" placeholder="예: 하루 1분 멘탈 관리법" required>
+          </div>
+
+          <!-- 대본(스크립트) 입력 -->
+          <div class="form-group">
+            <div class="label-with-actions">
+              <label class="form-label" for="video-script">3. 대본(스크립트) 입력</label>
+              <div class="sample-chips">
+                <button type="button" class="chip-btn" onclick="loadSample('success')">💡 성공 명언</button>
+                <button type="button" class="chip-btn" onclick="loadSample('health')">🌿 건강 상식</button>
+                <button type="button" class="chip-btn" onclick="loadSample('curiosity')">✨ 흥미로운 사실</button>
+              </div>
+            </div>
+            <textarea id="video-script" class="form-textarea" rows="5" placeholder="영상에서 읽어줄 대본을 입력하세요. 문장별로 자연스럽게 자막이 자동 생성됩니다." required></textarea>
+          </div>
+
+          <!-- AI 음성 및 테마 옵션 -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label class="form-label" for="voice-select">4. AI 성우 음성</label>
+              <select id="voice-select" class="form-select">
+                <option value="sunhi">👩 선희 (친절하고 밝은 여성)</option>
+                <option value="injoon">👨 인준 (차분하고 신뢰감 있는 남성)</option>
+                <option value="hyunsu">🎙️ 현수 (자연스러운 내레이션 남성)</option>
+                <option value="jiwan">🌸 지완 (부드러운 여성)</option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label class="form-label" for="theme-select">5. 배경 무드</label>
+              <select id="theme-select" class="form-select">
+                <option value="purple">🟣 퍼플 네온 (트렌디/자기계발)</option>
+                <option value="blue">🔵 딥 블루 (신뢰/정보/지식)</option>
+                <option value="dark">🟡 골드 다크 (고급/감성/스토리)</option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label class="form-label" for="speed-select">6. 말하기 속도</label>
+              <select id="speed-select" class="form-select">
+                <option value="+0%">보통 (1.0x)</option>
+                <option value="+10%">조금 빠르게 (1.1x 쇼츠 추천)</option>
+                <option value="+20%">빠르게 (1.2x)</option>
+                <option value="-10%">조금 느리게 (0.9x)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 생성 버튼 -->
+          <button type="submit" id="submit-btn" class="btn btn-primary btn-block">
+            <span class="btn-text">🚀 AI 자동 영상 제작 시작하기</span>
+            <span class="spinner" hidden></span>
+          </button>
         </form>
-      </section>
 
-      <!-- 영상 미리보기 및 다운로드 옵션 -->
-      <section id="preview-card" class="card preview-card" hidden>
-        <div class="preview-layout">
-          <div class="thumbnail-wrapper">
-            <img id="video-thumbnail" src="" alt="썸네일">
-            <span id="video-duration" class="badge duration-badge">00:00</span>
-          </div>
-          <div class="info-wrapper">
-            <h2 id="video-title" class="video-title">영상 제목</h2>
-            <div class="metadata">
-              <span id="video-channel" class="meta-item channel-name">채널명</span>
-              <span class="dot">·</span>
-              <span id="video-views" class="meta-item">조회수</span>
-            </div>
-            <p id="video-desc" class="video-desc"></p>
-
-            <div class="download-actions">
-              <button id="dl-mp4-btn" class="btn btn-download btn-mp4">
-                🎬 MP4 영상 다운로드
-              </button>
-              <button id="dl-mp3-btn" class="btn btn-download btn-mp3">
-                🎵 MP3 음원 다운로드
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 진행 상태 바 -->
-        <div id="progress-container" class="progress-container" hidden>
+        <!-- 진행 상황 바 -->
+        <div id="progress-card" class="progress-card" hidden>
           <div class="progress-bar-wrapper">
             <div id="progress-bar" class="progress-bar"></div>
           </div>
-          <p id="status-text" class="status-text">다운로드 중입니다. 잠시만 기다려 주세요...</p>
+          <p id="progress-status" class="progress-status">AI 음성 합성 및 자막 영상을 렌더링 중입니다. 잠시만 기다려 주세요...</p>
         </div>
       </section>
 
-      <!-- 다운로드 완료 보관함 -->
-      <section class="card library-card">
-        <div class="library-header">
-          <h3>📂 최근 다운로드 보관함</h3>
-          <button id="refresh-files-btn" class="btn btn-secondary btn-sm">새로고침</button>
+      <!-- 2. 결과 미리보기 및 보관함 -->
+      <section class="card result-card">
+        <h3 class="card-title">🎥 완성된 영상 미리보기</h3>
+        <div id="player-container" class="player-container">
+          <div class="placeholder-player">
+            <span class="placeholder-icon">▶</span>
+            <p>왼쪽에서 대본을 입력하고 영상을 제작하면<br>이곳에서 바로 재생 및 확인하실 수 있습니다.</p>
+          </div>
+          <video id="video-player" controls hidden></video>
         </div>
-        <ul id="files-list" class="files-list">
-          <li class="empty-state">아직 다운로드한 파일이 없습니다.</li>
-        </ul>
+        <div id="video-actions" class="video-actions" hidden>
+          <a id="download-btn" href="#" class="btn btn-download-video btn-block" download>
+            📥 완성된 영상 다운로드 (MP4)
+          </a>
+        </div>
+
+        <!-- 제작 완료 목록 -->
+        <div class="library-section">
+          <div class="library-header">
+            <h4>📂 최근 제작된 영상 보관함</h4>
+            <button id="refresh-btn" class="btn-text-link">새로고침</button>
+          </div>
+          <ul id="outputs-list" class="outputs-list">
+            <li class="empty-item">아직 제작된 영상이 없습니다.</li>
+          </ul>
+        </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>© 2026 ru_tube. 개인 소장 및 학습용 목적으로만 사용해 주세요.</p>
+      <p>© 2026 ru_tube Studio · AI 자동화 유튜브 쇼츠 & 롱폼 제작 엔진</p>
     </footer>
   </div>
 
