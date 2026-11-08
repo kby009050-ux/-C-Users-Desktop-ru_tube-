@@ -2,6 +2,8 @@ import os
 import re
 import asyncio
 import uuid
+import threading
+import webbrowser
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import edge_tts
@@ -254,9 +256,13 @@ def list_outputs():
 def serve_output(filename):
     return send_from_directory(OUTPUT_DIR, filename, as_attachment=False)
 
+def open_browser():
+    webbrowser.open("http://127.0.0.1:5000")
+
 if __name__ == "__main__":
     print("=" * 60)
     print("🎬 ru_tube AI 쇼츠 & 롱폼 자동 제작 스튜디오")
     print("👉 브라우저 주소: http://127.0.0.1:5000")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    threading.Timer(1.5, open_browser).start()
+    app.run(host="127.0.0.1", port=5000, debug=False)
