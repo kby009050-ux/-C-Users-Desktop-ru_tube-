@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ru_tube - 유튜브 & 음악 다운로더</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <span class="logo-text">ru<span class="highlight">_tube</span></span>
+      </div>
+      <p class="subtitle">고화질 영상(MP4) 및 고음질 음원(MP3) 간편 다운로더</p>
+    </header>
+
+    <main class="main-content">
+      <!-- 입력 섹션 -->
+      <section class="card input-card">
+        <form id="url-form">
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              id="youtube-url" 
+              placeholder="YouTube 영상 링크를 여기에 붙여넣으세요 (예: https://www.youtube.com/watch?v=...)" 
+              required
+              autocomplete="off"
+            >
+            <button type="submit" id="fetch-btn" class="btn btn-primary">
+              <span class="btn-text">조회하기</span>
+              <span class="spinner" hidden></span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 영상 미리보기 및 다운로드 옵션 -->
+      <section id="preview-card" class="card preview-card" hidden>
+        <div class="preview-layout">
+          <div class="thumbnail-wrapper">
+            <img id="video-thumbnail" src="" alt="썸네일">
+            <span id="video-duration" class="badge duration-badge">00:00</span>
+          </div>
+          <div class="info-wrapper">
+            <h2 id="video-title" class="video-title">영상 제목</h2>
+            <div class="metadata">
+              <span id="video-channel" class="meta-item channel-name">채널명</span>
+              <span class="dot">·</span>
+              <span id="video-views" class="meta-item">조회수</span>
+            </div>
+            <p id="video-desc" class="video-desc"></p>
+
+            <div class="download-actions">
+              <button id="dl-mp4-btn" class="btn btn-download btn-mp4">
+                🎬 MP4 영상 다운로드
+              </button>
+              <button id="dl-mp3-btn" class="btn btn-download btn-mp3">
+                🎵 MP3 음원 다운로드
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 진행 상태 바 -->
+        <div id="progress-container" class="progress-container" hidden>
+          <div class="progress-bar-wrapper">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+          <p id="status-text" class="status-text">다운로드 중입니다. 잠시만 기다려 주세요...</p>
+        </div>
+      </section>
+
+      <!-- 다운로드 완료 보관함 -->
+      <section class="card library-card">
+        <div class="library-header">
+          <h3>📂 최근 다운로드 보관함</h3>
+          <button id="refresh-files-btn" class="btn btn-secondary btn-sm">새로고침</button>
+        </div>
+        <ul id="files-list" class="files-list">
+          <li class="empty-state">아직 다운로드한 파일이 없습니다.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 ru_tube. 개인 소장 및 학습용 목적으로만 사용해 주세요.</p>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
