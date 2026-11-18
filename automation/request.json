@@ -1,14 +1,30 @@
 {
-  "title": "루사연 TTS 연결 테스트",
+  "title": "루사연 | 엄마에게 돌아온 차가운 한마디",
   "scenes": [
     {
       "speaker": "mother",
-      "text": "안녕하세요. 루사연입니다."
+      "text": "평생 아들 하나만 바라봤습니다."
+    },
+    {
+      "speaker": "mother",
+      "text": "그런데 어느 날, 아들이 이렇게 말했습니다."
     },
     {
       "speaker": "son",
-      "text": "엄마, 저도 제 마음을 말하고 싶어요."
+      "text": "엄마, 이제 우리 인생에 간섭하지 마세요."
+    },
+    {
+      "speaker": "mother",
+      "text": "내가 너한테 그렇게 짐이었니?"
+    },
+    {
+      "speaker": "mother",
+      "text": "그날, 엄마는 말없이 집을 떠났습니다."
+    },
+    {
+      "speaker": "mother",
+      "text": "여러분이라면 어떻게 하시겠어요?"
     }
   ],
-  "test_revision": "fix-v1beta-20261119"
+  "request_id": "rusayeon-anime-shorts-20261119"
 }
