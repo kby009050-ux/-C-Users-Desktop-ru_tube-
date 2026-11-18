@@ -1,0 +1,13 @@
+{
+  "title": "루사연 TTS 연결 테스트",
+  "scenes": [
+    {
+      "speaker": "mother",
+      "text": "안녕하세요. 루사연입니다."
+    },
+    {
+      "speaker": "son",
+      "text": "엄마, 저도 제 마음을 말하고 싶어요."
+    }
+  ]
+}
