@@ -96,11 +96,11 @@ def main():
         segments.append(clip)
         voices.append(wav)
     video_list = WORK / 'video_list.txt'
-    video_list.write_text(''.join(f"file '{p.resolve()}'\\n" for p in segments))
+    video_list.write_text(''.join(f"file '{p.resolve()}'\n" for p in segments))
     ffmpeg('-f', 'concat', '-safe', '0', '-i', video_list,
            '-c', 'copy', OUT / 'ru_sayeon_shorts.mp4')
     audio_list = WORK / 'audio_list.txt'
-    audio_list.write_text(''.join(f"file '{p.resolve()}'\\n" for p in voices))
+    audio_list.write_text(''.join(f"file '{p.resolve()}'\n" for p in voices))
     ffmpeg('-f', 'concat', '-safe', '0', '-i', audio_list,
            '-c:a', 'pcm_s16le', OUT / 'ru_sayeon_voice.wav')
     print('Gemini TTS + MP4 completed')
