@@ -10,8 +10,8 @@ def synthesize_gemini(text: str, voice: str, output_path: str):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         raise RuntimeError("GEMINI_API_KEY 환경변수를 먼저 설정하세요.")
-    if voice not in ("Nika", "Riko"):
-        raise ValueError("지원 음성: Nika, Riko")
+    if voice not in ("Kore", "Charon"):
+        raise ValueError("지원 음성: Kore, Charon")
     client = genai.Client(api_key=key)
     result = client.models.generate_content(
         model=os.environ.get("GEMINI_TTS_MODEL", "gemini-3.8-flash-tts"),
