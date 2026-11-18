@@ -15,7 +15,7 @@ def synthesize_gemini(text: str, voice: str, output_path: str):
     client = genai.Client(api_key=key)
     result = client.models.generate_content(
         model=os.environ.get("GEMINI_TTS_MODEL", "gemini-3.8-flash-tts"),
-        contents="다음 한국어 대사를 자연스럽게 읽어주세요. 대사 외의 내용은 말하지 마세요.\\n\\n" + text,
+        contents="다음 한국어 대사를 자연스럽게 읽어주세요. 대사 외의 내용은 말하지 마세요.\n\n" + text,
         config=types.GenerateContentConfig(
             response_modalities=["AUDIO"],
             speech_config=types.SpeechConfig(
