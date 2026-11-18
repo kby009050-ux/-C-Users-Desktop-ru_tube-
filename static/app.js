@@ -69,6 +69,8 @@ form.addEventListener("submit", async (e) => {
   const voice = voiceSelect.value;
   const theme = themeSelect.value;
   const speed = speedSelect.value;
+  const tts_provider = document.getElementById("tts-provider").value;
+  const gemini_voice = document.getElementById("gemini-voice").value;
 
   if (!script) {
     showToast("대본을 입력해 주세요.");
@@ -84,7 +86,7 @@ form.addEventListener("submit", async (e) => {
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, script, format, voice, theme, speed })
+      body: JSON.stringify({ title, script, format, voice, theme, speed, tts_provider, gemini_voice })
     });
 
     const data = await res.json();

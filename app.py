@@ -7,6 +7,7 @@ import webbrowser
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import edge_tts
+from gemini_tts import synthesize_gemini
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
@@ -150,6 +151,7 @@ def generate_video():
     script = data.get("script", "").strip()
     format_type = data.get("format", "shorts") # 'shorts' (9:16) 또는 'longform' (16:9)
     voice_key = data.get("voice", "sunhi")
+    tts_provider = data.get("tts_provider", "edge")
     theme = data.get("theme", "purple")
     speed = data.get("speed", "+0%")
 
@@ -162,10 +164,15 @@ def generate_video():
     output_path = str(OUTPUT_DIR / output_filename)
 
     voice_id = VOICES.get(voice_key, VOICES["sunhi"])["id"]
+    if tts_provider == "gemini":
+        audio_path = str(AUDIO_DIR / f"{job_id}.wav")
 
     try:
         # 1. 음성 합성 (Edge-TTS)
-        asyncio.run(generate_speech(script, voice_id, audio_path, rate=speed))
+        if tts_provider == "gemini":
+            synthesize_gemini(script, data.get("gemini_voice", "Kore"), audio_path)
+        else:
+            asyncio.run(generate_speech(script, voice_id, audio_path, rate=speed))
         audio_clip = AudioFileClip(audio_path)
         duration = audio_clip.duration
 
