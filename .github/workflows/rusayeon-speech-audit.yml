@@ -23,7 +23,7 @@ jobs:
       - name: Retrieve produced voice recording
         run: |
           mkdir -p audio_audit_files
-          gh run download 44364155756 --repo "${{ github.repository }}" --name "ru-sayeon-gemini-shorts" --dir audio_audit_files
+          gh run download 44366362378 --repo "${{ github.repository }}" --name "ru-sayeon-gemini-shorts" --dir audio_audit_files
           test -s audio_audit_files/outputs/ru_sayeon_voice.wav
       - name: Transcribe exact spoken words
         run: python automation/audio_audit.py audio_audit_files/outputs/ru_sayeon_voice.wav
