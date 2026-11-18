@@ -9,7 +9,7 @@ audio = Path(sys.argv[1]).read_bytes()
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"], http_options=types.HttpOptions(api_version="v1beta"))
 try:
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.8-flash",
         contents=[
             types.Part.from_bytes(data=audio, mime_type="audio/wav"),
             "이 파일은 한국어 음성입니다. 실제로 들리는 한국어 발화만 순서대로 정확히 받아써 주세요. "
