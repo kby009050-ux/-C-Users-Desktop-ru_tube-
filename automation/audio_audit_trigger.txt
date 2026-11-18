@@ -1,1 +1,3 @@
 Speech audit for 6-scene Gemini TTS Shorts, 2026-11-19
+
+retry with correct artifact path
