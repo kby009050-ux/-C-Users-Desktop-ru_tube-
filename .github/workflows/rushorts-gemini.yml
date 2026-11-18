@@ -44,5 +44,6 @@ jobs:
           path: |
             automation/outputs/ru_sayeon_shorts.mp4
             automation/outputs/ru_sayeon_voice.wav
+            automation/build/voice_*.wav
           if-no-files-found: error
           retention-days: 7
