@@ -29,7 +29,7 @@ def synthesize_gemini(text: str, voice: str, output_path: str):
     audio = next((p.inline_data for p in parts if getattr(p, "inline_data", None)), None)
     if not audio or not audio.data:
         raise RuntimeError("Gemini에서 음성 데이터가 반환되지 않았습니다.")
-    mime = audio.mime_type or ""
+    mime = (audio.mime_type or "").lower()
     if "audio/l16" not in mime and "audio/pcm" not in mime:
         raise RuntimeError("예상하지 못한 오디오 형식: " + mime)
     with wave.open(str(Path(output_path)), "wb") as wav:
