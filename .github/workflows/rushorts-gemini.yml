@@ -1,0 +1,48 @@
+name: 루쇼츠 Gemini TTS 제작
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'automation/request.json'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install media tools and Korean font
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+          python -m pip install --upgrade pip
+          python -m pip install google-genai pillow
+      - name: Confirm API key is configured
+        shell: bash
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo 'GitHub Settings > Secrets and variables > Actions 에 GEMINI_API_KEY를 등록하세요.'
+            exit 1
+          fi
+      - name: Generate Gemini voice and MP4
+        run: python automation/build_story.py automation/request.json
+      - name: Upload output video and voice
+        uses: actions/upload-artifact@v4
+        with:
+          name: ru-sayeon-gemini-shorts
+          path: |
+            automation/outputs/ru_sayeon_shorts.mp4
+            automation/outputs/ru_sayeon_voice.wav
+          if-no-files-found: error
+          retention-days: 7
