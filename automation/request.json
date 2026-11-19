@@ -1,30 +1,30 @@
 {
-  "title": "루사연 감동 애니 단편 백구 감성 엔딩 재녹음",
-  "request_id": "rusayeon-baekgu-emotional-ending-20261120",
+  "title": "루사연 백구 감동 엔딩 재생성 - Gemini SpeechMetadata",
+  "request_id": "rusayeon-baekgu-emotional-style-fixed-20261120",
   "scenes": [
     {
       "speaker": "narrator",
-      "direction": "한국어 여성 성우. 매우 차분하고 가슴 먹먹한 목소리, 낮고 느린 호흡. 조용히 눈물을 참는 듯 진정성 있게 낭독. 지시문은 말하지 말고 본문만 읽으세요.",
+      "style": "quiet, heartbroken, tender and reflective, soft emotional storytelling with gentle pauses",
       "text": "사람들이 찾아낸 백구는, 할머니 무덤 바로 곁에 누워 있었습니다. 다섯 해를 기다린 끝에, 백구도 그곳에서 조용히 눈을 감았어요."
     },
     {
       "speaker": "narrator",
-      "direction": "한국어 여성 성우. 애절하고 속삭이듯 낮은 음색, 슬픔을 누르며 백구를 떠올리는 감정. 마지막 말은 잠깐 여운을 주어 천천히. 지시문은 읽지 마세요.",
+      "style": "tearful, deeply moving, slow and tender, sincere restrained sadness",
       "text": "사람들은 백구의 얼굴을 보고 한동안 말을 잇지 못했습니다. 그토록 외로웠던 기다림이 끝나서일까요. 백구의 표정은, 참 편안해 보였습니다."
     },
     {
       "speaker": "narrator",
-      "direction": "한국어 여성 성우. 울음에서 서서히 벗어나 따뜻하고 벅찬 희망을 담은 목소리, 행복한 재회를 떠올리며 미소가 느껴지게. 지시문은 낭독하지 마세요.",
+      "style": "warm hopeful and joyful reunion, gentle affection, emotional smile",
       "text": "어쩌면 지금쯤, 백구는 할머니를 다시 만났을지도 모릅니다. 아프지도, 외롭지도 않은 곳에서. 예전처럼 할머니를 따라 신나게 뛰어다니고 있겠지요."
     },
     {
       "speaker": "narrator",
-      "direction": "한국어 여성 성우. 다정하고 감동적이며 깊은 여운. 마지막 문장 감정을 담고 천천히 마무리. 지시문은 읽지 마세요.",
+      "style": "soft, deeply touching and reflective with warm emotion",
       "text": "할머니에게 백구는 가장 소중한 가족이었고, 백구에게 할머니는 온 세상이었습니다. 이별도 끝내 끊지 못한, 그 사랑이 오래도록 기억되기를 바랍니다."
     },
     {
       "speaker": "narrator",
-      "direction": "한국어 여성 성우. 조용하고 따뜻한 마무리. 말할 내용은 단 한 문장뿐입니다. 화면에 나오는 구독과 좋아요 문구는 읽지 않습니다.",
+      "style": "gentle, quiet and warm sign-off",
       "text": "루사연이었습니다."
     }
   ]
