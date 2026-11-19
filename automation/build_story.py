@@ -83,7 +83,7 @@ def main():
             'mother', 'female', 'narrator', 'son', 'male'
         ):
             raise ValueError(f'{index+1}번 대사 형식이 올바르지 않습니다.')
-        voice = 'Charon' if speaker in ('son', 'male') else 'Kore'
+        voice = 'Charon' if speaker in ('son', 'male') else 'Sola'
         wav = WORK / f'voice_{index:02d}.wav'
         png = WORK / f'caption_{index:02d}.png'
         clip = WORK / f'clip_{index:02d}.mp4'
