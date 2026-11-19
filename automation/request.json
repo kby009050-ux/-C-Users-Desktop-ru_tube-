@@ -1,30 +1,25 @@
 {
-  "title": "루사연 백구 감동 엔딩 재생성 - Gemini SpeechMetadata",
-  "request_id": "rusayeon-baekgu-emotional-style-fixed-20261120",
+  "title": "루사연 백구 감동 엔딩 자연스러운 Sola 기본 톤",
+  "request_id": "rusayeon-baekgu-natural-sync-final-20261120",
   "scenes": [
     {
       "speaker": "narrator",
-      "style": "quiet, heartbroken, tender and reflective, soft emotional storytelling with gentle pauses",
-      "text": "사람들이 찾아낸 백구는, 할머니 무덤 바로 곁에 누워 있었습니다. 다섯 해를 기다린 끝에, 백구도 그곳에서 조용히 눈을 감았어요."
+      "text": "사람들이 찾아낸 백구는 할머니 무덤 바로 곁에 누워 있었습니다. 다섯 해를 기다린 끝에 백구도 그곳에서 조용히 눈을 감았어요."
     },
     {
       "speaker": "narrator",
-      "style": "tearful, deeply moving, slow and tender, sincere restrained sadness",
-      "text": "사람들은 백구의 얼굴을 보고 한동안 말을 잇지 못했습니다. 그토록 외로웠던 기다림이 끝나서일까요. 백구의 표정은, 참 편안해 보였습니다."
+      "text": "사람들은 백구의 얼굴을 보고 한동안 말을 잇지 못했습니다. 마지막 모습이 너무나 평온해 보였기 때문입니다."
     },
     {
       "speaker": "narrator",
-      "style": "warm hopeful and joyful reunion, gentle affection, emotional smile",
-      "text": "어쩌면 지금쯤, 백구는 할머니를 다시 만났을지도 모릅니다. 아프지도, 외롭지도 않은 곳에서. 예전처럼 할머니를 따라 신나게 뛰어다니고 있겠지요."
+      "text": "어쩌면 그 순간, 백구는 할머니를 다시 만났을지도 모릅니다. 할머니 품에 꼭 안겨, 행복하게 웃고 있었을지도 모르지요."
     },
     {
       "speaker": "narrator",
-      "style": "soft, deeply touching and reflective with warm emotion",
-      "text": "할머니에게 백구는 가장 소중한 가족이었고, 백구에게 할머니는 온 세상이었습니다. 이별도 끝내 끊지 못한, 그 사랑이 오래도록 기억되기를 바랍니다."
+      "text": "할머니에게 백구는 소중한 가족이었고, 백구에게 할머니는 세상의 전부였습니다. 두 사람이 그곳에서는 영원히 함께하길 바랍니다."
     },
     {
       "speaker": "narrator",
-      "style": "gentle, quiet and warm sign-off",
       "text": "루사연이었습니다."
     }
   ]
