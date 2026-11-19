@@ -1,30 +1,74 @@
 {
-  "title": "루사연 | 엄마에게 돌아온 차가운 한마디",
+  "title": "루사연 | 엄마 장례식 날 걸려온 전화",
+  "request_id": "rusayeon-gemini-funeral-short-20261119",
   "scenes": [
     {
-      "speaker": "mother",
-      "text": "평생 아들 하나만 바라봤습니다."
+      "speaker": "narrator",
+      "text": "엄마 장례식을 마친 날, 남편과 집으로 돌아가던 밤이었어요."
+    },
+    {
+      "speaker": "narrator",
+      "text": "갑자기 휴대전화가 울렸어요. 화면에 뜬 이름은 엄마였습니다."
     },
     {
       "speaker": "mother",
-      "text": "그런데 어느 날, 아들이 이렇게 말했습니다."
+      "text": "딸아, 네 옆에 있는 남자, 절대 믿지 마."
+    },
+    {
+      "speaker": "narrator",
+      "text": "분명 오늘 엄마를 떠나보냈는데, 전화기 너머 목소리는 틀림없이 엄마였어요."
+    },
+    {
+      "speaker": "narrator",
+      "text": "그때 옆에 있던 남편이 저를 보며 물었죠."
     },
     {
       "speaker": "son",
-      "text": "엄마, 이제 우리 인생에 간섭하지 마세요."
+      "text": "누구야? 장모님이야?"
+    },
+    {
+      "speaker": "narrator",
+      "text": "저는 소름이 돋았어요. 남편에게 누구한테 전화가 왔는지 말한 적이 없었거든요."
+    },
+    {
+      "speaker": "son",
+      "text": "사실, 장모님이 돌아가시기 전날 내가 마지막으로 만났어."
+    },
+    {
+      "speaker": "narrator",
+      "text": "그 말에 손끝까지 차가워졌어요. 엄마는 더 낮은 목소리로 속삭였죠."
     },
     {
       "speaker": "mother",
-      "text": "내가 너한테 그렇게 짐이었니?"
+      "text": "딸아, 그날 내가 왜 죽었는지 물어봐."
     },
     {
-      "speaker": "mother",
-      "text": "그날, 엄마는 말없이 집을 떠났습니다."
+      "speaker": "narrator",
+      "text": "저는 휴대전화를 꽉 쥐고 남편에게 물었어요."
     },
     {
-      "speaker": "mother",
-      "text": "여러분이라면 어떻게 하시겠어요?"
+      "speaker": "narrator",
+      "text": "당신, 엄마에게 무슨 짓을 한 거야?"
+    },
+    {
+      "speaker": "son",
+      "text": "내가 그런 게 아니야. 그날 거기엔 다른 사람도 있었어."
+    },
+    {
+      "speaker": "narrator",
+      "text": "남편이 떨리는 손으로 가리킨 곳에는, 제가 전혀 예상하지 못한 사람의 사진이 있었어요."
+    },
+    {
+      "speaker": "narrator",
+      "text": "사진 속에서 엄마와 함께 웃고 있는 사람은, 바로 저였습니다."
+    },
+    {
+      "speaker": "narrator",
+      "text": "그런데 저는 그날 엄마를 만난 기억이 전혀 없었어요. 대체 무슨 일이 있었던 걸까요?"
+    },
+    {
+      "speaker": "narrator",
+      "text": "오늘의 루사연이었습니다. 이야기의 다음 편이 궁금하다면 구독과 좋아요 부탁드려요."
     }
-  ],
-  "request_id": "rusayeon-anime-dialogue-only-20261119"
+  ]
 }
