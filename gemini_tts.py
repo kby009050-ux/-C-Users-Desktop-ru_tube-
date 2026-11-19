@@ -12,8 +12,8 @@ def synthesize_gemini(text: str, voice: str, output_path: str):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         raise RuntimeError("GEMINI_API_KEY 환경변수를 먼저 설정하세요.")
-    if voice not in ("Kore", "Charon"):
-        raise ValueError("지원 음성: Kore, Charon")
+    if voice not in ("Kore", "Charon", "Sola"):
+        raise ValueError("지원 음성: Kore, Charon, Sola")
 
     # SDK 3.x defaults to v1; Gemini TTS speechConfig requires v1beta.
     client = genai.Client(
