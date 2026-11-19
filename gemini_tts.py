@@ -4,7 +4,7 @@ import wave
 from pathlib import Path
 
 
-def synthesize_gemini(text: str, voice: str, output_path: str):
+def synthesize_gemini(text: str, voice: str, output_path: str, style: str = ''):
     """Write a Gemini-generated WAV file. Supports WAV or 24kHz PCM output."""
     from google import genai
     from google.genai import types
@@ -23,7 +23,7 @@ def synthesize_gemini(text: str, voice: str, output_path: str):
     try:
         result = client.models.generate_content(
             model=os.environ.get("GEMINI_TTS_MODEL", "gemini-3.8-flash-tts"),
-            contents=text,
+            contents=types.Content(role='user', parts=[types.Part(text=text, speech_metadata=types.SpeechMetadata(style=style))]) if style else text,
             config=types.GenerateContentConfig(
                 response_modalities=["AUDIO"],
                 speech_config=types.SpeechConfig(
