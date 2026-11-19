@@ -92,7 +92,7 @@ def main():
             time.sleep(7)
         for attempt in range(3):
             try:
-                synthesize_gemini((str(scene.get('direction', '')).strip() + '\n\n' + text) if scene.get('direction') else text, voice, str(wav))
+                synthesize_gemini(text, voice, str(wav), style=str(scene.get('style', '')).strip())
                 break
             except Exception as error:
                 if '429' not in str(error) or attempt == 2:
