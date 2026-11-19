@@ -230,8 +230,8 @@ def generate_video():
         # 자원 정리
         audio_clip.close()
         final_video.close()
-        if os.path.exists(audio_path):
-            os.remove(audio_path)
+        # Keep generated speech in temp_audio for private MCP retrieval.
+        # temp_audio/ is gitignored; only the local user can delete exports.
 
         return jsonify({
             "success": True,
