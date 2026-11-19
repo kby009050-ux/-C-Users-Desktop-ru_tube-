@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 import textwrap
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -86,7 +87,19 @@ def main():
         wav = WORK / f'voice_{index:02d}.wav'
         png = WORK / f'caption_{index:02d}.png'
         clip = WORK / f'clip_{index:02d}.mp4'
-        synthesize_gemini(text, voice, str(wav))
+        # Gemini TTS Tier-1 allows 10 generate requests/minute. Pace calls.
+        if index:
+            time.sleep(7)
+        for attempt in range(3):
+            try:
+                synthesize_gemini(text, voice, str(wav))
+                break
+            except Exception as error:
+                if '429' not in str(error) or attempt == 2:
+                    raise
+                print(f'Gemini rate limit: waiting before retry {attempt + 1}', flush=True)
+                time.sleep(25)
+
         render_caption(text, speaker, png)
         ffmpeg('-loop', '1', '-framerate', '24', '-i', png, '-i', wav,
                '-c:v', 'libx264', '-preset', 'ultrafast',
