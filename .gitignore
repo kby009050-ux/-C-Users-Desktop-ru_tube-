@@ -34,3 +34,6 @@ desktop.ini
 .idea/
 *.swp
 
+# Generated voice/video files (may contain private scripts)
+temp_audio/
+outputs/
