@@ -1,66 +1,10 @@
 {
-  "title": "루사연 감동 애니 단편 | 엄마의 사랑이 당연했던 날",
-  "request_id": "rusayeon-love-taken-for-granted-20261120",
+  "title": "루사연 엄마의 사랑 엔딩 한 줄 TTS",
+  "request_id": "rusayeon-mom-ending-narration-20261120",
   "scenes": [
     {
       "speaker": "narrator",
-      "text": "엄마는 평생 자식들에게 싫다는 말을 하지 못했습니다. 없는 돈도 내어 주고, 바쁜 딸 대신 손주들을 돌봐주셨죠."
-    },
-    {
-      "speaker": "female",
-      "text": "엄마, 이번 주에도 애들 좀 봐 줘. 나 바쁜 거 알잖아."
-    },
-    {
-      "speaker": "mother",
-      "text": "그래, 걱정 말고 다녀와. 엄마가 봐 줄게."
-    },
-    {
-      "speaker": "narrator",
-      "text": "어느새 엄마의 도움은 고마운 일이 아니라, 당연한 일이 되어 있었습니다."
-    },
-    {
-      "speaker": "female",
-      "text": "엄마, 내일도 애들 부탁해."
-    },
-    {
-      "speaker": "mother",
-      "text": "미안하다. 이번엔 엄마 몸이 좀 안 좋구나."
-    },
-    {
-      "speaker": "female",
-      "text": "엄마까지 왜 그래? 나도 힘들어!"
-    },
-    {
-      "speaker": "narrator",
-      "text": "평생 처음 거절한 엄마에게 돌아온 건, 걱정이 아니라 짜증이었습니다."
-    },
-    {
-      "speaker": "narrator",
-      "text": "그날 밤 엄마에게서 전화가 왔지만, 딸은 바쁘다는 이유로 받지 않았어요."
-    },
-    {
-      "speaker": "narrator",
-      "text": "다음 날 아침, 엄마가 세상을 떠났다는 연락이 왔습니다."
-    },
-    {
-      "speaker": "narrator",
-      "text": "엄마의 집을 정리하던 딸은 낡은 수첩을 발견했어요. 손주들 생일과 좋아하는 음식이 빼곡했습니다."
-    },
-    {
-      "speaker": "narrator",
-      "text": "마지막 장에는 이렇게 적혀 있었죠. 우리 딸, 요즘 많이 힘든가 보다. 내가 조금만 더 건강했으면 좋았을 텐데."
-    },
-    {
-      "speaker": "female",
-      "text": "엄마… 나 한 번만 더 전화해 줘. 이번엔 꼭 받을게."
-    },
-    {
-      "speaker": "narrator",
-      "text": "늘 그 자리에 있을 줄 알았던 사람. 그래서 고맙다는 말도 미뤘던 사람. 엄마의 사랑은, 결코 당연한 게 아니었습니다."
-    },
-    {
-      "speaker": "narrator",
-      "text": "루사연이었습니다."
+      "text": "평생 자식들에게 베풀었던 엄마의 호의가, 어느 순간 당연한 일이 되어버린 이야기였습니다."
     }
   ]
 }
