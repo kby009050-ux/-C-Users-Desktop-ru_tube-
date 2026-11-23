@@ -1,62 +1,144 @@
 {
-  "title": "하얀 강아지, 엄마의 품을 기다리다",
-  "request_id": "white-dog-full-remake-20261123",
+  "title": "매달 생활비를 달라는 아들, 엄마의 마지막 결단",
+  "request_id": "family-son-mother-20261124-final",
   "scenes": [
     {
       "speaker": "narrator",
-      "text": "그날, 하얀 강아지는 몰랐습니다. 주인이 마지막 인사를 하고 있다는 것을요."
-    },
-    {
-      "speaker": "female",
-      "text": "잠깐 기다려.",
-      "style": "말하기 직전 울음을 꾹 참고 눈물이 맺힌 젊은 여성, 작은 목소리, 슬프고 다정한 감정, 담백하게 또렷한 한국어. 이 대사만 읽으세요."
+      "text": "엄마가 쓰러졌다는 전화에도 아들은 이렇게 말했습니다. 엄마, 그래서 이번 달 생활비는?",
+      "style": "충격적이지만 과장하지 않는 단호한 여성 한국어 내레이션. 정확한 대사만 읽으세요.",
+      "image_index": 0
     },
     {
       "speaker": "narrator",
-      "text": "비가 쏟아지던 날, 여자는 강아지의 얼굴을 한 번 쓰다듬고 차에 올랐습니다. 강아지는 차가 사라진 길만 바라봤습니다."
+      "text": "삼십 년 동안 아들만 바라보며 살아온 엄마. 아들은 매달 돈이 필요할 때만 전화했습니다.",
+      "style": "감정이 서서히 깊어지는 한국어 여성 내레이션. 다른 말을 추가하지 마세요.",
+      "image_index": 1
+    },
+    {
+      "speaker": "son",
+      "text": "엄마, 이번 달 생활비 좀 보내줘.",
+      "style": "무심한 서른대 한국 남성, 당연하다는 태도로 차갑게 또렷하게. 대사만 읽으세요.",
+      "image_index": 2
     },
     {
       "speaker": "narrator",
-      "text": "하루, 이틀. 비가 그쳐도 강아지는 돌아오는 자동차마다 달려갔습니다. 하지만 그 차에는 엄마가 없었습니다."
+      "text": "엄마는 자신의 병원비를 아끼면서까지 아들에게 돈을 보냈습니다.",
+      "style": "담담하지만 아픈 마음이 전해지는 여성 내레이션.",
+      "image_index": 1
     },
     {
       "speaker": "narrator",
-      "text": "강아지가 가장 행복했던 순간은, 엄마 무릎에 턱을 올리고 잠들던 시간이었습니다."
-    },
-    {
-      "speaker": "female",
-      "text": "우리 아가, 엄마 여기 있어.",
-      "style": "다정하고 따스한 여성 목소리, 부드럽게 감정을 담되 발음을 선명하게 말하세요. 대사만 읽으세요."
-    },
-    {
-      "speaker": "narrator",
-      "text": "어느 날, 강아지는 공원에서 무릎을 내민 듯 앉아 있는 오래된 동상을 발견했습니다."
-    },
-    {
-      "speaker": "narrator",
-      "text": "강아지는 그 차가운 무릎에 조심스럽게 얼굴을 기댔습니다. 마치 다시는 만날 수 없는 엄마의 품인 것처럼요."
-    },
-    {
-      "speaker": "narrator",
-      "text": "며칠을 그렇게 보내던 강아지 곁에, 한 할머니가 다가왔습니다."
+      "text": "그러던 어느 날, 엄마가 쓰러졌습니다. 겨우 정신을 차린 엄마는 아들에게 전화했습니다.",
+      "style": "절제된 긴박감으로 한국어 여성 성우가 또박또박.",
+      "image_index": 3
     },
     {
       "speaker": "mother",
-      "text": "아가야, 많이 기다렸지? 이제 할머니랑 같이 가자.",
-      "style": "나이 든 한국 여성의 낮고 따뜻한 목소리. 울컥한 감정을 참으며 다정하게, 분명하게 읽으세요."
+      "text": "아들아… 엄마가 좀 아프다.",
+      "style": "아픈 노년 여성의 떨리는 낮은 목소리, 과하지 않게. 대사만.",
+      "image_index": 3
+    },
+    {
+      "speaker": "son",
+      "text": "엄마, 나 지금 바빠. 나중에 전화해.",
+      "style": "서둘러 전화를 끊는 차갑고 무심한 성인 남성. 대사만.",
+      "image_index": 2
     },
     {
       "speaker": "narrator",
-      "text": "강아지는 한참을 망설이다 할머니의 손에 얼굴을 비볐습니다. 처음으로, 누군가를 다시 믿어 보기로 한 것입니다."
+      "text": "그날 밤, 엄마는 아들의 사진을 보았습니다. 가족들과 고급 식당에서 웃고 있는 모습이었습니다.",
+      "style": "상실감이 느껴지게 낮고 느리게, 정확히 읽으세요.",
+      "image_index": 4
     },
     {
       "speaker": "narrator",
-      "text": "강아지는 버림받은 이유를 알지 못합니다. 그저 사랑받던 순간을 기억합니다. 그리고 누군가의 작은 손길 하나가, 다시 살아갈 용기가 되기도 합니다."
+      "text": "그 순간 알았습니다. 아들에게 자신은 엄마가 아니라, 필요할 때 돈을 보내주는 통장이었다는 것을.",
+      "style": "담담한 비통함, 정확한 한국어.",
+      "image_index": 4
+    },
+    {
+      "speaker": "narrator",
+      "text": "다음 날 엄마는 자동이체를 끊고, 전화번호를 바꿨습니다.",
+      "style": "결심이 느껴지는 명료한 내레이션.",
+      "image_index": 5
+    },
+    {
+      "speaker": "narrator",
+      "text": "며칠 뒤, 아들은 엄마의 집을 찾아왔습니다.",
+      "style": "짧고 긴장감 있게.",
+      "image_index": 6
+    },
+    {
+      "speaker": "son",
+      "text": "엄마! 왜 전화번호까지 바꿨어? 생활비는 왜 안 보내는 건데?",
+      "style": "화가 난 성인 남성, 공격적으로 빠르고 정확하게. 대사만.",
+      "image_index": 6
+    },
+    {
+      "speaker": "mother",
+      "text": "너는 내가 아프다고 했을 때도 돈 걱정부터 했지.",
+      "style": "오랜 슬픔을 참아 온 노년 여성, 낮고 단호하게. 대사만.",
+      "image_index": 7
+    },
+    {
+      "speaker": "mother",
+      "text": "평생 너 하나 잘살게 해보겠다고 내 인생을 다 바쳤다. 그런데 너한테 나는 엄마가 아니라 돈 나오는 통장이었구나.",
+      "style": "쓰라린 깨달음을 억누르며 선명하게 말하는 한국 노년 여성.",
+      "image_index": 7
+    },
+    {
+      "speaker": "mother",
+      "text": "잘 들어라. 나는 이제 너 같은 자식 없다.",
+      "style": "비통하지만 결연한 노년 여성, 마지막 문장은 단호하게. 대사만.",
+      "image_index": 7
+    },
+    {
+      "speaker": "mother",
+      "text": "두 번 다시 내 앞에 나타나지 마라. 너는 너대로 살아라. 나도 이제 나대로 살 테니.",
+      "style": "냉정한 결심, 울음이 터지지 않도록 목소리를 누르며 또박또박. 대사만.",
+      "image_index": 7
+    },
+    {
+      "speaker": "narrator",
+      "text": "엄마는 문을 닫았습니다. 아들은 닫힌 문 앞에서 무릎을 꿇었습니다.",
+      "style": "슬픔을 눌러 담은 여성 내레이션.",
+      "image_index": 8
+    },
+    {
+      "speaker": "son",
+      "text": "엄마… 내가 잘못했어. 문 좀 열어줘…",
+      "style": "울먹이며 매달리는 남성, 정확한 발음, 대사만.",
+      "image_index": 8
+    },
+    {
+      "speaker": "narrator",
+      "text": "하지만 엄마는 돌아보지 않았습니다. 자식이라는 이유로 부모의 희생이 당연해지는 순간, 사랑은 상처가 됩니다.",
+      "style": "차분하고 묵직한 교훈을 전하는 여성 내레이션.",
+      "image_index": 9
+    },
+    {
+      "speaker": "narrator",
+      "text": "아들은 매달 받던 생활비를 잃은 게 아니었습니다. 평생 자신을 지켜주던 단 한 사람을 잃은 것이었습니다.",
+      "style": "감정을 절제한 애절한 마지막 내레이션.",
+      "image_index": 9
     },
     {
       "speaker": "narrator",
       "text": "루사연이었습니다.",
-      "style": "한국어 여성 내레이션. 이 한 문장만 읽습니다. 차분하고 다정한 중저음, 또박또박 정확하게 ‘루사연이었습니다.’를 자연스럽게 발음합니다. 감정은 절제하고 말끝을 낮게 내립니다. 다른 말을 덧붙이지 않습니다."
+      "style": "정확한 발음으로 '루사연이었습니다.' 이 문장만 차분하게 읽으세요.",
+      "image_index": 9
     }
+  ],
+  "images": [
+    "Shocking opening: anguished elderly Korean mother collapsed on small home floor beside smartphone glowing with incoming call; composition with distant adult Korean son on phone looking indifferent, strong cinematic split lighting.",
+    "Flashback: lonely elderly Korean mother in modest apron counting household bills beside bankbook at kitchen table, worn hands, tender sorrow in her eyes; warm lamp against blue dusk.",
+    "Adult Korean son in neat black jacket holding phone in upscale apartment, impatient arrogant expression, close-up dramatic angle.",
+    "Elderly Korean mother alone in hospital corridor clutching chest and holding smartphone, cold blue hospital lights, tension; no words on signs.",
+    "Night: lonely elderly Korean mother tearfully looking at smartphone showing son celebrating with family at luxury restaurant, her room dark, golden screen glow on face.",
+    "Determined elderly Korean mother at bank machine in morning then standing with phone held firmly in her hand, resolute eyes, diagonal sunrise beams.",
+    "Confrontation at modest apartment doorway: adult Korean son furious and shouting, elderly Korean mother in burgundy cardigan quietly standing, extreme anime emotional close-up.",
+    "Final confrontation: elderly Korean mother in burgundy cardigan speaks sternly through tears at door, son stunned, dramatic deep red gold light.",
+    "Door shut: adult Korean son kneeling and crying in dim hallway outside closed apartment door, long dramatic shadows.",
+    "Behind closed door: elderly Korean mother in burgundy cardigan silently crying in her apartment, hand on door, bittersweet and dignified sunset light."
   ]
 }
