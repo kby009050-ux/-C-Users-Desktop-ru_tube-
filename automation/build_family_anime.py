@@ -73,11 +73,11 @@ def make_frame(raw, caption, speaker, dest, idx, end=False):
     im=crop(Image.open(raw).convert("RGB")).convert("RGBA")
     shade=Image.new("RGBA",im.size,(0,0,0,0))
     d=ImageDraw.Draw(shade)
-    d.rounded_rectangle((64,25,476,78),radius=16,fill=(7,7,19,170))
+    d.rounded_rectangle((14,22,218,59),radius=10,fill=(7,7,19,118))
     name="루사연 | 애니사연"
-    titlefont=font(31)
+    titlefont=font(19)
     b=d.textbbox((0,0),name,font=titlefont)
-    d.text(((W-(b[2]-b[0]))//2,29),name,font=titlefont,fill="#FFFFFF",stroke_width=2,stroke_fill="#080812")
+    d.text((24,28),name,font=titlefont,fill="#FFFFFF",stroke_width=1,stroke_fill="#080812")
     if not end:
         face=font(33)
         lines=wrapped(d,caption,face,W-68)
@@ -113,12 +113,20 @@ def main():
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
-        prompt=("Create a single full screen VERTICAL 9:16 frame of an original Japanese 2D hand-drawn cinematic dark fantasy ANIME drama, "
-                "intricate expressive faces, stunning ink linework and painterly shading, dramatic lighting, emotional mature Korean family story. "
-                "Keep characters consistent: elderly Korean mother, short silver-gray hair tied back, burgundy cardigan, kind lined face; "
-                "adult Korean son, straight dark hair, dark navy jacket, age mid-30s. "
-                "Distinctly traditional CEL ANIMATION, NOT 3D, NOT photorealism, NOT manga panels or a comic grid. "
-                "Full-bleed illustration with NO text, no symbols, no watermark. Scene: "+data["images"][refidx])
+        prompt=("A SINGLE breathtaking finished ANIME MOVIE KEYFRAME, full bleed portrait 9:16, "
+                "Original 2D Japanese dark fantasy animation with the visual energy of theatrical sword-fantasy anime, "
+                "superb sharply drawn expressive eyes and detailed face acting, crisp BLACK INK outlines, painterly multi-layered CEL SHADING, "
+                "rich saturated ultramarine and deep purple shadows contrasting fiery amber and crimson RIM LIGHTING, "
+                "dramatic compositional diagonals, cascading directional light shafts, smoke and dynamic hand-painted particle atmosphere, "
+                "traditional meticulously hand-painted animation background, high-contrast meticulous sakuga key-frame quality, "
+                "anime STORYTELLING drawing with full figures, cinematic close-up when emotion demands it. "
+                "Absolutely NOT watercolor picturebook, NOT realistic photography, NOT plastic 3D, NOT semi-realistic western cartoon, "
+                "NOT monochrome manga, NOT collage, NOT storyboard grid, NOT flat chibi vector or generic cartoon. "
+                "Recurring people design: elderly Korean mother with shoulder-length silver-gray hair tied into a low bun, "
+                "expressive mature lined face, BURGUNDY knit cardigan; adult Korean son in his mid-30s with straight dark hair, "
+                "navy casual jacket and charcoal trousers. A modern Korean emotional family story, not fantasy characters. "
+                "No lettering, no graphics, no captions, no speech bubbles. "
+                "Unique scene to illustrate faithfully: "+data["images"][refidx])
         print("Generating Gemini 2D anime scene",n,flush=True)
         image_from_gemini(image_client,prompt,p)
         images.append(p)
@@ -155,6 +163,18 @@ def main():
     tail=WORK/"end.png"; tailmp4=WORK/"end.mp4"
     make_frame(images[-1],"","narrator",tail,99,True)
     ffmpeg("-loop","1","-i",tail,"-t","2","-vf",f"scale={W}:{H},fps={FPS}","-c:v","libx264","-preset","ultrafast","-crf","25","-pix_fmt","yuv420p","-f","mp4",tailmp4)
+    # Build a strong opening headline overlay for the first three seconds, no heavy black panel.
+    hook=WORK/"hook.png"
+    canvas=Image.new("RGBA",(W,H),(0,0,0,0))
+    hd=ImageDraw.Draw(canvas)
+    headline1="매달 돈만 요구하던 아들"
+    headline2="엄마는 번호를 바꿨습니다"
+    hf=font(41)
+    for k,line in enumerate((headline1,headline2)):
+        bx=hd.textbbox((0,0),line,font=hf,stroke_width=3)
+        hd.text(((W-(bx[2]-bx[0]))/2,285+k*61),line,font=hf,fill="#FFFFFF" if k==0 else "#FFF0A3",
+                stroke_width=4,stroke_fill="#111022")
+    canvas.save(hook)
     # All sections encoded consistently; concat with audio present in every scene.
     # silent CTA AAC for seamless concat
     tailav=WORK/"end_av.mp4"
@@ -162,7 +182,12 @@ def main():
     clips.append(tailav)
     concat=WORK/"videos.txt"
     concat.write_text("".join("file '"+str(f.resolve())+"'\n" for f in clips))
-    ffmpeg("-f","concat","-safe","0","-i",concat,"-c","copy","-movflags","+faststart",OUT/"ru_sayeon_shorts.mp4")
+    raw=WORK/"ungraded.mp4"
+    ffmpeg("-f","concat","-safe","0","-i",concat,"-c","copy","-movflags","+faststart",raw)
+    ffmpeg("-i",raw,"-loop","1","-i",hook,
+           "-filter_complex","[0:v][1:v]overlay=0:0:enable='between(t,0,3)'[v]",
+           "-map","[v]","-map","0:a","-c:v","libx264","-preset","veryfast","-crf","21",
+           "-pix_fmt","yuv420p","-c:a","copy","-movflags","+faststart",OUT/"ru_sayeon_shorts.mp4")
     audios=WORK/"audios.txt"
     audios.write_text("".join("file '"+str(f.resolve())+"'\n" for f in voices))
     ffmpeg("-f","concat","-safe","0","-i",audios,"-c:a","pcm_s16le",OUT/"ru_sayeon_voice.wav")
