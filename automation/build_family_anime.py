@@ -1,7 +1,7 @@
 """Gemini-only 2D anime short, per-line Aoede/Charon voice and timed captions."""
 import io, json, os, subprocess, sys, time, wave, math
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 from google import genai
 from google.genai import types
 
@@ -99,7 +99,9 @@ def make_frame(raw, caption, speaker, dest, idx, end=False):
             f=font(28); b=d.textbbox((0,0),line,font=f)
             d.text(((W-(b[2]-b[0]))//2,764+i*43),line,font=f,fill="white",stroke_width=2,stroke_fill="#101010")
     im=Image.alpha_composite(im,shade).convert("RGB")
-    im.save(dest,quality=91)
+    im=ImageEnhance.Contrast(im).enhance(1.26)
+    im=ImageEnhance.Sharpness(im).enhance(1.45)
+    im.save(dest,quality=95)
 
 def main():
     data=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
@@ -113,20 +115,30 @@ def main():
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
-        prompt=("A SINGLE breathtaking finished ANIME MOVIE KEYFRAME, full bleed portrait 9:16, "
-                "Original 2D Japanese dark fantasy animation with the visual energy of theatrical sword-fantasy anime, "
-                "superb sharply drawn expressive eyes and detailed face acting, crisp BLACK INK outlines, painterly multi-layered CEL SHADING, "
-                "rich saturated ultramarine and deep purple shadows contrasting fiery amber and crimson RIM LIGHTING, "
-                "dramatic compositional diagonals, cascading directional light shafts, smoke and dynamic hand-painted particle atmosphere, "
-                "traditional meticulously hand-painted animation background, high-contrast meticulous sakuga key-frame quality, "
-                "anime STORYTELLING drawing with full figures, cinematic close-up when emotion demands it. "
-                "Absolutely NOT watercolor picturebook, NOT realistic photography, NOT plastic 3D, NOT semi-realistic western cartoon, "
-                "NOT monochrome manga, NOT collage, NOT storyboard grid, NOT flat chibi vector or generic cartoon. "
-                "Recurring people design: elderly Korean mother with shoulder-length silver-gray hair tied into a low bun, "
-                "expressive mature lined face, BURGUNDY knit cardigan; adult Korean son in his mid-30s with straight dark hair, "
-                "navy casual jacket and charcoal trousers. A modern Korean emotional family story, not fantasy characters. "
-                "No lettering, no graphics, no captions, no speech bubbles. "
-                "Unique scene to illustrate faithfully: "+data["images"][refidx])
+        prompt=(
+            "STYLE IS THE NUMBER ONE REQUIREMENT, more important than realism. "
+            "DRAW A SINGLE FRAME FROM A HIGH-END TRADITIONAL JAPANESE 2D SHONEN ACTION ANIME. "
+            "Visual reference: the visually intense dark-fantasy sword-fighting ANIME look that fans associate with Demon Slayer, "
+            "but completely original characters in a modern Korean family story, NO existing anime characters. "
+            "AUTHENTIC JAPANESE ANIME PRODUCTION CEL: giant angular irises with razor-sharp dark upper eyelids, "
+            "sharp stylized anime noses and pointed facial silhouettes, expressive exaggerated emotion, anime hair divided into sharp "
+            "chunky spikes and ink-black strands. STRONG solid BLACK 3-pixel contour inks around every person, feature and garment; "
+            "HARD two or three-tone flat CEL SHADOWS, no softness or airbrushing; dramatic dense black cast shadows, "
+            "extremely bright red-purple flame-like compositional highlights, turquoise night shadows and highly luminous orange rim light. "
+            "Pictorial atmosphere of a theatrical Japanese hand-drawn anime film, crisp high-contrast digitally inked animation cels, "
+            "cinematic tilted-angle extreme close-ups, low angle confrontation framing, bold intense anime expressions, "
+            "exaggerated tear streaks, folds of clothes sharply drawn, detailed hard-edged anime architecture, "
+            "directional burst speed lines ONLY when confrontation or grief. Every frame has dramatic contrast and precise line art. "
+            "NOT cute. NOT picturebook. NOT webtoon. NOT soft pastel. NOT semi-realistic. NOT portrait painting. "
+            "NOT Ghibli-like. NOT watercolor. NOT Western cartoon. NOT 3D. NOT photographic. "
+            "No artistic blur, no oil paint, no soft gradient shading. "
+            "Vertical FULL SCREEN 9:16 anime screenshot; ONE SCENE ONLY, never a comic panel grid. "
+            "Character consistency: elderly Korean mother with stylized large anime eyes, angular silver-gray bun, burgundy cardigan; "
+            "adult Korean son, sharp spiky ink-black anime hair, intense angular anime eyes, navy jacket. "
+            "Modern Japanese animated series aesthetics applied to a Korean drama. "
+            "Absolutely NO letters, subtitles, captions, watermarks. Draw this exact scene in ANIME CEL STYLE: "
+            +data["images"][refidx]
+        )
         print("Generating Gemini 2D anime scene",n,flush=True)
         image_from_gemini(image_client,prompt,p)
         images.append(p)
