@@ -35,7 +35,14 @@ jobs:
             echo 'GitHub Settings > Secrets and variables > Actions 에 GEMINI_API_KEY를 등록하세요.'
             exit 1
           fi
-      - name: Generate Gemini voice and MP4
+      - name: Retrieve existing original Gemini Aoede and Charon speech
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p automation/prebuilt
+          gh run download 45229512184 --repo "${{ github.repository }}" --name ru-sayeon-gemini-shorts --dir automation/prebuilt
+          test -s automation/prebuilt/build/voice_20.wav
+      - name: Generate 2D Gemini illustration and final MP4
         run: python automation/build_family_anime.py automation/request.json
       - name: Upload output video and voice
         uses: actions/upload-artifact@v4
@@ -45,5 +52,6 @@ jobs:
             automation/outputs/ru_sayeon_shorts.mp4
             automation/outputs/ru_sayeon_voice.wav
             automation/build/voice_*.wav
+            automation/build/art_*.jpg
           if-no-files-found: error
           retention-days: 7
