@@ -141,15 +141,14 @@ def main():
         wav=WORK/f"voice_{idx:02d}.wav"
         png=WORK/f"caption_{idx:02d}.png"
         mp4=WORK/f"clip_{idx:02d}.mp4"
-        if idx:time.sleep(6)
-        print("Gemini TTS",idx,voice,flush=True)
-        for attempt in range(3):
-            try:
-                synthesize_gemini(text,voice,str(wav),style=scene.get("style",""))
-                break
-            except Exception as e:
-                if "429" not in str(e) or attempt==2:raise
-                time.sleep(30)
+        # Reuse the already-successful Gemini Aoede/Charon recordings for this exact script.
+        # They are obtained from the prior successful GitHub Actions artifact.
+        original=ROOT/"automation"/"prebuilt"/"build"/f"voice_{idx:02d}.wav"
+        if not original.is_file():
+            raise FileNotFoundError("Missing previously generated Gemini voice: "+str(original))
+        import shutil
+        shutil.copyfile(original,wav)
+        print("Reused original Gemini voice",idx,voice,flush=True)
         make_frame(images[mapped[idx]],text,speaker,png,idx)
         target=duration(wav)/RATE
         ffmpeg("-loop","1","-framerate",str(FPS),"-i",png,"-i",wav,
