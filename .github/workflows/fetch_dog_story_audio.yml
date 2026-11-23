@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: Download already generated Korean story WAV
         run: |
-          curl -fLsS --retry 2 --connect-timeout 20 --max-time 100 'https://resource2.heygen.ai/text_to_speech/d2ae3f79a5804ba9888eff902678038f/4270665fc47f44aa989c093bb3dc2b99/id=564287eee3a74bf49e2d3069786ff4d8.wav' -o dog_story_narration.wav
-          test -s dog_story_narration.wav
-          file dog_story_narration.wav
+          curl -fLsS --retry 2 --connect-timeout 20 --max-time 100 'https://resource2.heygen.ai/text_to_speech/d2ae3f79a5804ba9888eff902678038f/d0657a8d1e704362acef9e577a066dc4/id=7363623f7c2245698e13ac5d49357c56.wav' -o dog_story_new_korean_voice.wav
+          test -s dog_story_new_korean_voice.wav
+          file dog_story_new_korean_voice.wav
       - uses: actions/upload-artifact@v4
         with:
-          name: dog-story-narration-generated
-          path: dog_story_narration.wav
+          name: dog-story-new-Korean-voice
+          path: dog_story_new_korean_voice.wav
           retention-days: 3
