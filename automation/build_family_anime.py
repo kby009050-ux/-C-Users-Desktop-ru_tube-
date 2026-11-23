@@ -183,7 +183,7 @@ def main():
     concat.write_text("".join("file '"+str(f.resolve())+"'\n" for f in clips))
     raw=WORK/"ungraded.mp4"
     ffmpeg("-f","concat","-safe","0","-i",concat,"-c","copy","-movflags","+faststart",raw)
-    ffmpeg("-i",raw,"-loop","1","-i",hook,
+    ffmpeg("-i",raw,"-loop","1","-i",hook,"-t",f"{duration(raw):.3f}",
            "-filter_complex","[0:v][1:v]overlay=0:0:enable='between(t,0,3)'[v]",
            "-map","[v]","-map","0:a","-c:v","libx264","-preset","veryfast","-crf","21",
            "-pix_fmt","yuv420p","-c:a","copy","-movflags","+faststart",OUT/"ru_sayeon_shorts.mp4")
