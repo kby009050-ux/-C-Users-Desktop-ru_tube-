@@ -27,13 +27,13 @@ def font(size):
         if Path(f).exists():return ImageFont.truetype(f,size)
     raise RuntimeError("Korean font missing")
 
-def image_from_gemini(client, prompt, output):
+def image_from_gemini(client, prompt, output, reference=None):
     model=os.environ.get("GEMINI_IMAGE_MODEL","gemini-3.1-flash-image")
     for attempt in range(3):
         try:
             res=client.models.generate_content(
                 model=model,
-                contents=prompt,
+                contents=[types.Part.from_bytes(data=Path(reference).read_bytes(),mime_type="image/jpeg"),prompt] if reference else prompt,
                 config=types.GenerateContentConfig(response_modalities=["IMAGE","TEXT"]))
             for part in res.candidates[0].content.parts:
                 if getattr(part,"inline_data",None) and part.inline_data.data:
@@ -114,41 +114,44 @@ def main():
     key=os.environ.get("GEMINI_API_KEY")
     if not key:raise RuntimeError("GEMINI_API_KEY missing from GitHub Actions secrets")
     image_client=genai.Client(api_key=key,http_options=types.HttpOptions(api_version="v1beta"))
-    # Ten freshly generated Gemini 2D animation style scene backgrounds
+    # Fix both characters in one original master drawing before generating 10 new frames.
+    master=WORK/"character_master.jpg"
+    master_prompt=(
+        "A single beautiful frame from a high-budget original Japanese 2D action drama anime, "
+        "modern Korean apartment with exactly ONE dark grey metal entrance door and electronic keypad lock, "
+        "clear two recognizable character faces: Korean mother age 58, elegant delicate anime eyes, "
+        "SHORT dark brown CHIN-LENGTH BOB haircut subtly grey at temples, burgundy cardigan, NO earrings; "
+        "handsome adult Korean son age 35 with SHORT tidy black hair and navy jacket. "
+        "Both shown in single frame with beautiful meticulously clean 2D CEL ANIME drawing, "
+        "professional character design as polished as Demon-Slayer-like Japanese anime, "
+        "extraordinary detailed graceful eyes and refined faces, crisp ink lines and vivid painterly backgrounds. "
+        "ABSOLUTELY no historical elements, no sliding doors, no shoji, no paper screen, no comic panels, "
+        "no text, no logos, no 3D, no photo, only modern Korean apartment, vertical 9:16."
+    )
+    print("Generating shared character identity master",flush=True)
+    image_from_gemini(image_client,master_prompt,master)
+    # Generate ten completely new images using that precise reference image
     relevant=[0,1,2,3,4,5,6,7,8,9]
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
         prompt=(
-            "MOST IMPORTANT: closely follow the actual user-supplied visual reference. "
-            "The reference is a GORGEOUS ultra-crisp traditional Japanese 2D ANIME from a dark fantasy period drama, "
-            "with especially BEAUTIFUL graceful female leads, very attractive symmetrical anime faces, "
-            "extremely sharp beautiful almond-shaped layered eyes with sparkling detailed iris reflections, "
-            "clean fine curved eyelashes, subtly blushed delicate skin, slender shaped nose and refined lip design, "
-            "smooth exquisite Japanese-anime face contours, elegant beautiful anime hair with dozens of neatly inked detailed strands, "
-            "glossy light catches and richly shaded flowing highlights. Draw a VERY PRETTY professionally designed anime protagonist, "
-            "not an ugly or aged-looking caricature, not old-fashioned. "
-            "Anime of the detailed BEAUTIFUL Japanese 2D sword-fantasy aesthetic of Demon Slayer but entirely original characters. "
-            "The female protagonist is a beautifully drawn elegant modern Korean mother of age 52, clear and lovely facial proportions "
-            "with slightly mature expression and discreet age lines, sleek refined dark-chestnut hair with a little gray at the temple, "
-            "gorgeous large expressive luminous Japanese-animation eyes, burgundy cardigan. She must look like a beautifully "
-            "DESIGNED female Japanese-anime lead, not like a generic grandmother or a photorealistic elderly lady. "
-            "The son is a handsome distinctive Korean 35-year-old adult male Japanese-anime protagonist, "
-            "striking handsome symmetrical face, beautifully clean slim angular jaw and distinctive large glowing dark anime eyes, "
-            "well-designed shiny black flowing layered anime haircut and navy blue jacket. "
-            "Keep these two designs the SAME across all scenes. "
-            "Animation studio quality crisp precise 2D ink lines, elegant detailed character design, "
-            "polished sharp CEL animation shading, bright luminous skin tones, beautiful cinematic lighting, "
-            "deep jewel colors with realistic anime light reflection and fantastically detailed hand-painted interiors. "
-            "NOT photorealistic, NOT plastic 3D, NOT western cartoon, NOT children's book, "
-            "NOT heavily lined gritty sketch, NOT elderly distorted anatomy, NOT soft blurry painting, "
-            "NOT CGI, NOT generic webtoon, NO collage, NO manga panel divisions. "
-            "Single immaculate vertical 9:16 FULL BLEED Japanese 2D ANIME SCREENSHOT with NO TEXT or logos. "
-            "Dynamic emotional Japanese animation STORYBOARD CINEMATOGRAPHY with characters matching this scene: "
-            +data["images"][refidx]
+            "Preserve EXACT same characters and anime art style from the reference photo. "
+            "Mother MUST have SHORT CHIN-LENGTH dark brown BOB, subtle grey highlights, burgundy cardigan, "
+            "NO earrings, NO jewelry; age 58, gorgeous mature 2D Japanese anime face, delicate large luminous eyes. "
+            "Son ALWAYS with same neat short black side-part hair, navy jacket, handsome anime face age 35. "
+            "Modern contemporary Seoul apartment with ONE ordinary grey STEEL entrance door, white walls and "
+            "digital keypad lock, NEVER shoji paper screens or wooden sliding doors or extra nested doors. "
+            "If hospital scene: modern hospital bed and monitors, mother SAME BOB and cardigan. "
+            "Beautiful crisp highly polished JAPANESE 2D ANIME animation screenshot, Demon-Slayer-like "
+            "beautiful clean expressive character design, precisely inked delicate line art, exquisite "
+            "face anatomy and natural expressive eyes, high end cel shaded jewel tones and luminous cinematic "
+            "dramatic lighting. SINGLE continuous scene, vertical 9:16, no panels or composites, "
+            "NO text, NO subtitles, NO logo, NO photography, NO 3D, NO watercolor. "
+            "Follow this exact storytelling event: "+data["images"][refidx]
         )
         print("Generating Gemini 2D anime scene",n,flush=True)
-        image_from_gemini(image_client,prompt,p)
+        image_from_gemini(image_client,prompt,p,reference=master)
         images.append(p)
         time.sleep(4)
     image_client.close()
@@ -161,14 +164,28 @@ def main():
         wav=WORK/f"voice_{idx:02d}.wav"
         png=WORK/f"caption_{idx:02d}.png"
         mp4=WORK/f"clip_{idx:02d}.mp4"
-        # Reuse the already-successful Gemini Aoede/Charon recordings for this exact script.
-        # They are obtained from the prior successful GitHub Actions artifact.
-        original=ROOT/"automation"/"prebuilt"/"build"/f"voice_{idx:02d}.wav"
-        if not original.is_file():
-            raise FileNotFoundError("Missing previously generated Gemini voice: "+str(original))
-        import shutil
-        shutil.copyfile(original,wav)
-        print("Reused original Gemini voice",idx,voice,flush=True)
+        # Original new TTS for every mother line and calm closing, not pitch/speed altered old acting.
+        if speaker=="mother" or idx==len(scenes)-1:
+            if idx==len(scenes)-1:
+                style=("Warm casual Korean woman host closing an intimate personal story, gentle friendly "
+                       "conversational delivery, neutral and relaxed with falling sentence ending, "
+                       "no anger, no dramatic emphasis, no sternness. Only say the exact phrase.")
+            elif idx==5:
+                style=("Korean mother aged 58, feeling ill, quietly and naturally telling son she is sick, "
+                       "intimate everyday Korean speaking voice, understated fatigue, no affected acting.")
+            else:
+                style=("Realistic ordinary Korean mother in her late 50s. Natural conversation with her son, "
+                       "very restrained emotional sadness and calm conviction, genuinely conversational "
+                       "familiar everyday phrasing, small meaningful pauses, clear fluid diction. "
+                       "Never shout, never play anger, never stiffly declaim, never sob theatrically.")
+            print("Fresh Gemini Aoede voice for mother or calm closing",idx,flush=True)
+            synthesize_gemini(text,voice,str(wav),style=style)
+        else:
+            original=ROOT/"automation"/"prebuilt"/"build"/f"voice_{idx:02d}.wav"
+            if not original.is_file(): raise FileNotFoundError(str(original))
+            import shutil
+            shutil.copyfile(original,wav)
+            print("Preserved original narrator/son voice",idx,flush=True)
         make_frame(images[mapped[idx]],text,speaker,png,idx,end=(idx==len(scenes)-1))
         target=duration(wav)/RATE
         ffmpeg("-loop","1","-framerate",str(FPS),"-i",png,"-i",wav,
