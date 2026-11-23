@@ -1,0 +1,27 @@
+name: RuSayeon new silent source video voice
+on:
+  push:
+    paths:
+      - 'automation/new_silent_voice.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -q google-genai
+      - name: Record new story voice in Gemini
+        run: python automation/new_silent_voice.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: new-silent-story-gemini-voice
+          path: automation/new_voice/*
+          retention-days: 7
