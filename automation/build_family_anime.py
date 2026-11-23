@@ -99,8 +99,8 @@ def make_frame(raw, caption, speaker, dest, idx, end=False):
             f=font(28); b=d.textbbox((0,0),line,font=f)
             d.text(((W-(b[2]-b[0]))//2,764+i*43),line,font=f,fill="white",stroke_width=2,stroke_fill="#101010")
     im=Image.alpha_composite(im,shade).convert("RGB")
-    im=ImageEnhance.Contrast(im).enhance(1.26)
-    im=ImageEnhance.Sharpness(im).enhance(1.45)
+    im=ImageEnhance.Contrast(im).enhance(1.08)
+    im=ImageEnhance.Sharpness(im).enhance(1.15)
     im.save(dest,quality=95)
 
 def main():
@@ -111,40 +111,32 @@ def main():
     if not key:raise RuntimeError("GEMINI_API_KEY missing from GitHub Actions secrets")
     image_client=genai.Client(api_key=key,http_options=types.HttpOptions(api_version="v1beta"))
     # Six original hand-drawn Gemini art frames, re-used with scene-dependent pans
-    relevant=[0,1,3,4,7,8,9]
+    relevant=[0,1,2,3,4,5,6,7,8,9]
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
         prompt=(
-            "STYLE IS THE NUMBER ONE REQUIREMENT, more important than realism. "
-            "DRAW A SINGLE FRAME FROM A HIGH-END TRADITIONAL JAPANESE 2D SHONEN ACTION ANIME. "
-            "Visual reference: the visually intense dark-fantasy sword-fighting ANIME look that fans associate with Demon Slayer, "
-            "but completely original characters in a modern Korean family story, NO existing anime characters. "
-            "AUTHENTIC JAPANESE ANIME PRODUCTION CEL: giant angular irises with razor-sharp dark upper eyelids, "
-            "sharp stylized anime noses and pointed facial silhouettes, expressive exaggerated emotion, anime hair divided into sharp "
-            "chunky spikes and ink-black strands. STRONG solid BLACK 3-pixel contour inks around every person, feature and garment; "
-            "HARD two or three-tone flat CEL SHADOWS, no softness or airbrushing; dramatic dense black cast shadows, "
-            "extremely bright red-purple flame-like compositional highlights, turquoise night shadows and highly luminous orange rim light. "
-            "Pictorial atmosphere of a theatrical Japanese hand-drawn anime film, crisp high-contrast digitally inked animation cels, "
-            "cinematic tilted-angle extreme close-ups, low angle confrontation framing, bold intense anime expressions, "
-            "exaggerated tear streaks, folds of clothes sharply drawn, detailed hard-edged anime architecture, "
-            "directional burst speed lines ONLY when confrontation or grief. Every frame has dramatic contrast and precise line art. "
-            "NOT cute. NOT picturebook. NOT webtoon. NOT soft pastel. NOT semi-realistic. NOT portrait painting. "
-            "NOT Ghibli-like. NOT watercolor. NOT Western cartoon. NOT 3D. NOT photographic. "
-            "No artistic blur, no oil paint, no soft gradient shading. "
-            "Vertical FULL SCREEN 9:16 anime screenshot; ONE SCENE ONLY, never a comic panel grid. "
-            "Character consistency: elderly Korean mother with stylized large anime eyes, angular silver-gray bun, burgundy cardigan; "
-            "adult Korean son, sharp spiky ink-black anime hair, intense angular anime eyes, navy jacket. "
-            "Modern Japanese animated series aesthetics applied to a Korean drama. "
-            "Absolutely NO letters, subtitles, captions, watermarks. Draw this exact scene in ANIME CEL STYLE: "
-            +data["images"][refidx]
+            "Recreate the polished, lovely, razor-sharp hand drawn 2D Japanese anime art style of the REFERENCE VIDEO described here. "
+            "Reference: a classic high-budget Japanese period-drama anime SCREENSHOT of elegant young women, delicate beautiful symmetrical anime faces, luminous detailed anime eyes with fine long lashes, thin precise inked brows, refined small anime noses and small lips, gracefully flowing ink-black hair with individual perfectly inked locks, exquisite traditional fabrics and colored highlights, rich high-end layered cel animation painting. "
+            "A BEAUTIFUL high quality Japanese television anime frame, remarkably crisp, meticulously clean character drawing, "
+            "perfect anime proportions with gorgeous detailed eyes and glossy multidimensional hair, soft warm facial shadows but STRONG clean anime outlines, high-resolution 2D illustration, delicate cinematic lighting, detailed yet harmonious background interior architecture, vivid refined palette. "
+            "The STYLE IS JAPANESE SHONEN DARK-FANTASY ANIME LIKE DEMON SLAYER VISUALS, adapted to modern Korean emotional family drama. "
+            "Not historical costumes, do not copy any famous character. "
+            "Create totally original characters whose drawings are AS BEAUTIFUL, AS CLEAR, AS DETAILED and AS AUTHENTICALLY JAPANESE ANIME as the female actors in the supplied reference video. "
+            "For the protagonist, use an elegant 60-year-old Korean mother, graceful face with refined wrinkles, luminous distinct Japanese anime eyes, beautifully shaped silver-gray hair neatly tied back, rich burgundy cardigan. "
+            "The son is a handsome 35-year-old man with beautifully drawn expressive Japanese anime eyes, neat ink-black hair and navy jacket. "
+            "An emotional movie scene; sincere vivid intense facial expressions, sophisticated direction and correct anatomy. "
+            "Crisp extremely fine lines, polished digital 2D CEL animation with subtle hard shadow shapes and beautiful color grading. "
+            "NO sketchy black heavy borders, no grotesque exaggerated anatomy, NO oil paint or painterly realism, no watercolor, no pastel illustration, no 3D, no semi-realistic faces, no western cartoon, no collage, no text or captions, no panels, no watermark. "
+            "Full-bleed single vertical 9:16 Japanese 2D anime screenshot. "
+            "Depict this very specific emotional moment: "+data["images"][refidx]
         )
         print("Generating Gemini 2D anime scene",n,flush=True)
         image_from_gemini(image_client,prompt,p)
         images.append(p)
         time.sleep(4)
     image_client.close()
-    mapped=[0,1,1,1,2,2,2,3,3,4,4,4,4,4,4,4,5,5,6,6,6]
+    mapped=[0,1,2,1,3,3,2,4,4,5,6,6,7,7,7,7,8,8,9,9,9]
     clips=[];voices=[]
     for idx,scene in enumerate(scenes):
         text=scene["text"]
