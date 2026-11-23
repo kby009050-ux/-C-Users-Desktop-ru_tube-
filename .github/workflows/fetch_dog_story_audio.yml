@@ -1,0 +1,21 @@
+name: Fetch already generated HeyGen dog story speech
+on:
+  workflow_dispatch:
+  push:
+    paths: ['.github/workflows/fetch_dog_story_audio.yml']
+permissions:
+  contents: read
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download already generated Korean story WAV
+        run: |
+          curl -fLsS --retry 2 --connect-timeout 20 --max-time 100 'https://resource2.heygen.ai/text_to_speech/d2ae3f79a5804ba9888eff902678038f/4270665fc47f44aa989c093bb3dc2b99/id=564287eee3a74bf49e2d3069786ff4d8.wav' -o dog_story_narration.wav
+          test -s dog_story_narration.wav
+          file dog_story_narration.wav
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dog-story-narration-generated
+          path: dog_story_narration.wav
+          retention-days: 3
