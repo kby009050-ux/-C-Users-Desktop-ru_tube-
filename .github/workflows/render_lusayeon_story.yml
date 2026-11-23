@@ -1,0 +1,28 @@
+name: Render Lusayeon Anime Short
+on:
+  push:
+    paths:
+      - 'automation/render_lusayeon_story.py'
+      - '.github/workflows/render_lusayeon_story.yml'
+  workflow_dispatch:
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install video dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-nanum ffmpeg
+          python -m pip install --quiet pillow
+      - name: Render full Korean narrated anime video
+        run: python automation/render_lusayeon_story.py
+      - name: Upload MP4 for download
+        uses: actions/upload-artifact@v4
+        with:
+          name: lusayeon-anime-full-with-female-voice
+          path: lusayeon_anime_story_full.mp4
+          retention-days: 30
