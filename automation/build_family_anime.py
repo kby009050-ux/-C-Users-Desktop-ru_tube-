@@ -93,11 +93,15 @@ def make_frame(raw, caption, speaker, dest, idx, end=False):
             x=(W-(b[2]-b[0]))//2
             d.text((x,top+15+i*lineheight),line,font=face,fill="#FFFFFF",stroke_width=2,stroke_fill="#13141D")
     else:
-        d.rounded_rectangle((20,748,W-20,873),radius=18,fill=(0,0,0,170))
+        # Last spoken phrase and CTA start in the SAME frame as Aoede says 루사연이었습니다.
+        title="루사연이었습니다."
+        face=font(33)
+        bb=d.textbbox((0,0),title,font=face)
+        d.text(((W-(bb[2]-bb[0]))//2,698),title,font=face,fill="#FFFFFF",stroke_width=3,stroke_fill="#1A1428")
         note="공감되셨다면\n구독과 좋아요 부탁드립니다."
         for i,line in enumerate(note.split("\n")):
             f=font(28); b=d.textbbox((0,0),line,font=f)
-            d.text(((W-(b[2]-b[0]))//2,764+i*43),line,font=f,fill="white",stroke_width=2,stroke_fill="#101010")
+            d.text(((W-(b[2]-b[0]))//2,765+i*43),line,font=f,fill="white",stroke_width=2,stroke_fill="#101010")
     im=Image.alpha_composite(im,shade).convert("RGB")
     im=ImageEnhance.Contrast(im).enhance(1.08)
     im=ImageEnhance.Sharpness(im).enhance(1.15)
@@ -110,26 +114,38 @@ def main():
     key=os.environ.get("GEMINI_API_KEY")
     if not key:raise RuntimeError("GEMINI_API_KEY missing from GitHub Actions secrets")
     image_client=genai.Client(api_key=key,http_options=types.HttpOptions(api_version="v1beta"))
-    # Six original hand-drawn Gemini art frames, re-used with scene-dependent pans
+    # Ten freshly generated Gemini 2D animation style scene backgrounds
     relevant=[0,1,2,3,4,5,6,7,8,9]
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
         prompt=(
-            "Recreate the polished, lovely, razor-sharp hand drawn 2D Japanese anime art style of the REFERENCE VIDEO described here. "
-            "Reference: a classic high-budget Japanese period-drama anime SCREENSHOT of elegant young women, delicate beautiful symmetrical anime faces, luminous detailed anime eyes with fine long lashes, thin precise inked brows, refined small anime noses and small lips, gracefully flowing ink-black hair with individual perfectly inked locks, exquisite traditional fabrics and colored highlights, rich high-end layered cel animation painting. "
-            "A BEAUTIFUL high quality Japanese television anime frame, remarkably crisp, meticulously clean character drawing, "
-            "perfect anime proportions with gorgeous detailed eyes and glossy multidimensional hair, soft warm facial shadows but STRONG clean anime outlines, high-resolution 2D illustration, delicate cinematic lighting, detailed yet harmonious background interior architecture, vivid refined palette. "
-            "The STYLE IS JAPANESE SHONEN DARK-FANTASY ANIME LIKE DEMON SLAYER VISUALS, adapted to modern Korean emotional family drama. "
-            "Not historical costumes, do not copy any famous character. "
-            "Create totally original characters whose drawings are AS BEAUTIFUL, AS CLEAR, AS DETAILED and AS AUTHENTICALLY JAPANESE ANIME as the female actors in the supplied reference video. "
-            "For the protagonist, use an elegant 60-year-old Korean mother, graceful face with refined wrinkles, luminous distinct Japanese anime eyes, beautifully shaped silver-gray hair neatly tied back, rich burgundy cardigan. "
-            "The son is a handsome 35-year-old man with beautifully drawn expressive Japanese anime eyes, neat ink-black hair and navy jacket. "
-            "An emotional movie scene; sincere vivid intense facial expressions, sophisticated direction and correct anatomy. "
-            "Crisp extremely fine lines, polished digital 2D CEL animation with subtle hard shadow shapes and beautiful color grading. "
-            "NO sketchy black heavy borders, no grotesque exaggerated anatomy, NO oil paint or painterly realism, no watercolor, no pastel illustration, no 3D, no semi-realistic faces, no western cartoon, no collage, no text or captions, no panels, no watermark. "
-            "Full-bleed single vertical 9:16 Japanese 2D anime screenshot. "
-            "Depict this very specific emotional moment: "+data["images"][refidx]
+            "MOST IMPORTANT: closely follow the actual user-supplied visual reference. "
+            "The reference is a GORGEOUS ultra-crisp traditional Japanese 2D ANIME from a dark fantasy period drama, "
+            "with especially BEAUTIFUL graceful female leads, very attractive symmetrical anime faces, "
+            "extremely sharp beautiful almond-shaped layered eyes with sparkling detailed iris reflections, "
+            "clean fine curved eyelashes, subtly blushed delicate skin, slender shaped nose and refined lip design, "
+            "smooth exquisite Japanese-anime face contours, elegant beautiful anime hair with dozens of neatly inked detailed strands, "
+            "glossy light catches and richly shaded flowing highlights. Draw a VERY PRETTY professionally designed anime protagonist, "
+            "not an ugly or aged-looking caricature, not old-fashioned. "
+            "Anime of the detailed BEAUTIFUL Japanese 2D sword-fantasy aesthetic of Demon Slayer but entirely original characters. "
+            "The female protagonist is a beautifully drawn elegant modern Korean mother of age 52, clear and lovely facial proportions "
+            "with slightly mature expression and discreet age lines, sleek refined dark-chestnut hair with a little gray at the temple, "
+            "gorgeous large expressive luminous Japanese-animation eyes, burgundy cardigan. She must look like a beautifully "
+            "DESIGNED female Japanese-anime lead, not like a generic grandmother or a photorealistic elderly lady. "
+            "The son is a handsome distinctive Korean 35-year-old adult male Japanese-anime protagonist, "
+            "striking handsome symmetrical face, beautifully clean slim angular jaw and distinctive large glowing dark anime eyes, "
+            "well-designed shiny black flowing layered anime haircut and navy blue jacket. "
+            "Keep these two designs the SAME across all scenes. "
+            "Animation studio quality crisp precise 2D ink lines, elegant detailed character design, "
+            "polished sharp CEL animation shading, bright luminous skin tones, beautiful cinematic lighting, "
+            "deep jewel colors with realistic anime light reflection and fantastically detailed hand-painted interiors. "
+            "NOT photorealistic, NOT plastic 3D, NOT western cartoon, NOT children's book, "
+            "NOT heavily lined gritty sketch, NOT elderly distorted anatomy, NOT soft blurry painting, "
+            "NOT CGI, NOT generic webtoon, NO collage, NO manga panel divisions. "
+            "Single immaculate vertical 9:16 FULL BLEED Japanese 2D ANIME SCREENSHOT with NO TEXT or logos. "
+            "Dynamic emotional Japanese animation STORYBOARD CINEMATOGRAPHY with characters matching this scene: "
+            +data["images"][refidx]
         )
         print("Generating Gemini 2D anime scene",n,flush=True)
         image_from_gemini(image_client,prompt,p)
@@ -153,7 +169,7 @@ def main():
         import shutil
         shutil.copyfile(original,wav)
         print("Reused original Gemini voice",idx,voice,flush=True)
-        make_frame(images[mapped[idx]],text,speaker,png,idx)
+        make_frame(images[mapped[idx]],text,speaker,png,idx,end=(idx==len(scenes)-1))
         target=duration(wav)/RATE
         ffmpeg("-loop","1","-framerate",str(FPS),"-i",png,"-i",wav,
                "-filter_complex",f"[1:a]atempo={RATE}[a]",
@@ -162,10 +178,6 @@ def main():
                "-c:v","libx264","-preset","ultrafast","-crf","25","-pix_fmt","yuv420p",
                "-c:a","aac","-b:a","128k","-ar","24000","-ac","1","-movflags","+faststart",mp4)
         clips.append(mp4);voices.append(wav)
-    # Short 2 second text-only CTA at end; spoken ending remains in last narrated scene.
-    tail=WORK/"end.png"; tailmp4=WORK/"end.mp4"
-    make_frame(images[-1],"","narrator",tail,99,True)
-    ffmpeg("-loop","1","-i",tail,"-t","2","-vf",f"scale={W}:{H},fps={FPS}","-c:v","libx264","-preset","ultrafast","-crf","25","-pix_fmt","yuv420p","-f","mp4",tailmp4)
     # Build a strong opening headline overlay for the first three seconds, no heavy black panel.
     hook=WORK/"hook.png"
     canvas=Image.new("RGBA",(W,H),(0,0,0,0))
@@ -178,11 +190,6 @@ def main():
         hd.text(((W-(bx[2]-bx[0]))/2,285+k*61),line,font=hf,fill="#FFFFFF" if k==0 else "#FFF0A3",
                 stroke_width=4,stroke_fill="#111022")
     canvas.save(hook)
-    # All sections encoded consistently; concat with audio present in every scene.
-    # silent CTA AAC for seamless concat
-    tailav=WORK/"end_av.mp4"
-    ffmpeg("-i",tailmp4,"-f","lavfi","-t","2","-i","anullsrc=r=24000:cl=mono","-map","0:v","-map","1:a","-t","2","-c:v","copy","-c:a","aac","-b:a","128k",tailav)
-    clips.append(tailav)
     concat=WORK/"videos.txt"
     concat.write_text("".join("file '"+str(f.resolve())+"'\n" for f in clips))
     raw=WORK/"ungraded.mp4"
