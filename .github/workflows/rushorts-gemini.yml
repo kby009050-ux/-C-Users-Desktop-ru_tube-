@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 55
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
       - name: Generate Gemini voice and MP4
-        run: python automation/build_story.py automation/request.json
+        run: python automation/build_family_anime.py automation/request.json
       - name: Upload output video and voice
         uses: actions/upload-artifact@v4
         with:
