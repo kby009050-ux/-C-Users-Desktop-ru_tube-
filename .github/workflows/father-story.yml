@@ -26,3 +26,5 @@ jobs:
           path: automation/outputs/*
           if-no-files-found: error
           retention-days: 7
+
+# Retry temporary image service overload
