@@ -1,0 +1,28 @@
+name: RuSayeon father daughter short
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/father-story.yml'
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg fonts-noto-cjk
+      - run: pip install google-genai pillow
+      - run: python automation/build_father_story.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: father-daughter-short
+          path: automation/outputs/*
+          if-no-files-found: error
+          retention-days: 7
