@@ -29,7 +29,7 @@ def font(size):
 
 def image_from_gemini(client, prompt, output, reference=None):
     model=os.environ.get("GEMINI_IMAGE_MODEL","gemini-3.1-flash-image")
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             res=client.models.generate_content(
                 model=model,
@@ -46,7 +46,7 @@ def image_from_gemini(client, prompt, output, reference=None):
                     return
             raise RuntimeError("Gemini image response did not contain artwork")
         except Exception as e:
-            if ("429" not in str(e) and "RESOURCE_EXHAUSTED" not in str(e)) or attempt==2:raise
+            if not any(code in str(e) for code in ("429","RESOURCE_EXHAUSTED","503","UNAVAILABLE")) or attempt==4:raise
             time.sleep(30*(attempt+1))
 
 def crop(im):
