@@ -1,0 +1,36 @@
+name: Gemini TTS connection test
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/gemini-tts-test.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install google-genai
+      - name: Generate fresh Korean speech
+        run: |
+          python - <<'PY'
+          from gemini_tts import synthesize_gemini
+          import wave
+          synthesize_gemini("내가 태어난 날, 아빠는 기뻐하지 않았습니다.", "Aoede", "gemini-test.wav")
+          with wave.open("gemini-test.wav", "rb") as f:
+              assert f.getnframes() > 0
+              print("Fresh Gemini audio verified:", f.getnframes(), "frames")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gemini-tts-test
+          path: gemini-test.wav
+          if-no-files-found: error
+          retention-days: 7
