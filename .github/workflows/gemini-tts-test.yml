@@ -23,7 +23,7 @@ jobs:
           python - <<'PY'
           from gemini_tts import synthesize_gemini
           import wave
-          synthesize_gemini("내가 태어난 날, 아빠는 기뻐하지 않았습니다.", "Aoede", "gemini-test.wav")
+          synthesize_gemini("아빠가 미웠습니다. 그런데 아빠가 세상을 떠나고 나니, 이제는 그 잔소리마저 그립습니다.", "Aoede", "gemini-test.wav")
           with wave.open("gemini-test.wav", "rb") as f:
               assert f.getnframes() > 0
               print("Fresh Gemini audio verified:", f.getnframes(), "frames")
