@@ -23,7 +23,7 @@ jobs:
         run: |
           python - <<'PY'
           import json, time, wave
-          from concurrent.futures import ThreadPoolExecutor
+          import re
           from pathlib import Path
           from gemini_tts import synthesize_gemini
           lines = json.loads("[[\"Kore\",\"우리 아빠 사고 냈어. 상대방이랑 합의해야 하는데… 삼백만 원만 빌려줘. 제발.\"],[\"Aoede\",\"그날 새벽, 그 전화를 받은 건 저만이 아니었습니다.\"],[\"Aoede\",\"십 년 친구였어요. 전화기 너머로 우는 소리에, 무슨 사고였는지도 못 묻고 돈을 보냈습니다.\"],[\"Sola\",\"너도 돈 보냈어? 나한테도 아빠 사고 났댔어.\"],[\"Kore\",\"나도. 근데 어제 걔, 술집에서 봤어.\"],[\"Aoede\",\"결국 제가 아버님께 전화를 드렸어요.\"],[\"Charon\",\"사고? 나 어제도 오늘도 가게에 있었는데?\"],[\"Aoede\",\"그럼 내가 보낸 돈, 어디에 썼어?\"],[\"Kore\",\"술값이랑 밀린 외상값. 갚을 생각은 있었어.\"],[\"Aoede\",\"그런데 왜 아버님까지 팔았어?\"],[\"Aoede\",\"친구는 대답하지 못했습니다.\"],[\"Aoede\",\"돈은 끝내 돌아오지 않았어요. 밤새 술을 마시고 출근을 거르던 친구는 일자리도 잃었어요.\"],[\"Aoede\",\"다시 전화가 왔을 땐, 우리 중 누구도 받지 않았습니다.\"],[\"Aoede\",\"그날 제가 빌려준 건 돈이었어요.\"],[\"Aoede\",\"친구가 잃어버린 건, 새벽 두 시에도 전화를 받아주던 사람들이었고요.\"],[\"Aoede\",\"가까운 사이일수록, 돈을 보내기 전에 한 번은 확인하세요.\"],[\"Aoede\",\"오늘의 이야기에 공감하셨다면, 구독과 좋아요로 함께해 주세요.\"],[\"Aoede\",\"루사연이었습니다.\"]]")
@@ -42,11 +42,14 @@ jobs:
                   except Exception as exc:
                       if attempt == 2 or not any(s in str(exc) for s in ('429','503','UNAVAILABLE')):
                           raise
-                      time.sleep(4 * (attempt+1))
-          with ThreadPoolExecutor(max_workers=3) as pool:
-              list(pool.map(make, enumerate(lines)))
+                      time.sleep(64 if '429' in str(exc) else 8 * (attempt+1))
+          for i,line in enumerate(lines):
+              start=time.monotonic()
+              make((i,line))
+              if i+1<len(lines): time.sleep(max(0,7.3-(time.monotonic()-start)))
           PY
-      - uses: actions/upload-artifact@v4
+      - if: ${{ always() }}
+        uses: actions/upload-artifact@v4
         with:
           name: night-call-audio
           path: night-call-audio/*.wav
