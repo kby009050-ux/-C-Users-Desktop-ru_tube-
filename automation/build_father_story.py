@@ -98,7 +98,7 @@ def make_frame(raw, caption, speaker, dest, idx, end=False):
         face=font(33)
         bb=d.textbbox((0,0),title,font=face)
         d.text(((W-(bb[2]-bb[0]))//2,698),title,font=face,fill="#FFFFFF",stroke_width=3,stroke_fill="#1A1428")
-        note="공감되셨다면\n구독과 좋아요 부탁드립니다."
+        note="공감되셨다면\n구독 & 좋아요."
         for i,line in enumerate(note.split("\n")):
             f=font(28); b=d.textbbox((0,0),line,font=f)
             d.text(((W-(b[2]-b[0]))//2,765+i*43),line,font=f,fill="white",stroke_width=2,stroke_fill="#101010")
@@ -111,12 +111,13 @@ def main():
     data=json.loads("{\"scenes\":[{\"text\":\"내가 태어난 날, 아빠는 기뻐하지 않았습니다. 아들이 아닌 또 딸이었으니까요.\",\"speaker\":\"narrator\",\"image_index\":0},{\"text\":\"딸만 다섯인 집의 막내. 아빠는 막내라고 버릇이 나빠진다며 유독 저에게 엄격하셨습니다.\",\"speaker\":\"narrator\",\"image_index\":1},{\"text\":\"어린 나도 사랑받고 싶었는데… 그렇게 서운함은 미움이 되었습니다.\",\"speaker\":\"narrator\",\"image_index\":2},{\"text\":\"아빠가 없는 세상에서 살면 마음이 편할 줄 알았습니다. 그런데 아빠는 너무 일찍 떠나셨습니다.\",\"speaker\":\"narrator\",\"image_index\":3},{\"text\":\"나이가 들수록 이상하게도 아빠와 함께했던 어린 시절이 자꾸만 떠오릅니다.\",\"speaker\":\"narrator\",\"image_index\":4},{\"text\":\"그때는 왜 그렇게 미웠을까요. 이제는 미워하고 싶어도 미워할 아빠가 없습니다.\",\"speaker\":\"narrator\",\"image_index\":5},{\"text\":\"아빠… 다시 어린 시절로 돌아갈 수 있다면 한 번만 꼭 안아보고 싶습니다.\",\"speaker\":\"narrator\",\"image_index\":6}],\"images\":[\"Korean mother holding newborn daughter, four older daughters nearby, father looks disappointed, nostalgic modest Korean home\",\"Father sternly scolds little daughter, she looks down, no violence\",\"Little daughter alone by window with tears, dusk\",\"Adult daughter in black mourning clothes looking at framed portrait of father, restrained grief\",\"Warm childhood memory of father and little daughter walking together beneath autumn trees, golden light\",\"Adult daughter holding old photograph of father at night, tears\",\"Dreamlike memory of adult daughter embracing father, warm sunset, bittersweet\"]}")
     WORK.mkdir(parents=True,exist_ok=True);OUT.mkdir(parents=True,exist_ok=True)
     scenes=data["scenes"]
+    scenes.append({"text":"루사연이었습니다.","speaker":"narrator","image_index":len(data["images"])-1})
     key=os.environ.get("GEMINI_API_KEY")
     if not key:raise RuntimeError("GEMINI_API_KEY missing from GitHub Actions secrets")
     image_client=genai.Client(api_key=key,http_options=types.HttpOptions(api_version="v1beta"))
     # Fix both characters in one original master drawing before generating 10 new frames.
     master=WORK/"character_master.jpg"
-    master_prompt="Original cinematic Japanese 2D cel anime character reference, Korean father age 40 short black hair simple brown sweater, little daughter age 7 black bob cream dress, adult version of daughter age 30 same eyes and black hair. Nostalgic warm light, refined ink lines, no text, vertical 9:16."
+    master_prompt="Premium theatrical hand-drawn Japanese 2D action-drama cel anime character reference, intricate expressive irises, sharp ink contours, layered hair strands, dramatic angular shadows, Korean father age 40 short black hair simple brown sweater, little daughter age 7 black bob cream dress, adult version of daughter age 30 same eyes and black hair. Nostalgic warm light, refined ink lines, no text, vertical 9:16."
     print("Generating shared character identity master",flush=True)
     image_from_gemini(image_client,master_prompt,master)
     # Generate ten completely new images using that precise reference image
@@ -124,7 +125,7 @@ def main():
     images=[]
     for n,refidx in enumerate(relevant):
         p=WORK/f"art_{n:02d}.jpg"
-        prompt="Original high quality Japanese 2D cel anime, expressive eyes, crisp ink lines, painterly cinematic backgrounds, dramatic light, consistent father and daughter from reference, no text, no 3D, vertical 9:16. "+data["images"][refidx]
+        prompt="Premium hand-drawn Japanese theatrical 2D action-drama anime, sharply defined black ink contours, intricate luminous irises, detailed hair strands, strong angular cel shadows, dramatic rim lighting, saturated jewel tones, elaborate hand-painted backgrounds, dynamic cinematic composition, no pastel cartoon or simplified illustration, consistent father and daughter from reference, no text, no 3D, vertical 9:16. "+data["images"][refidx]
         print("Generating Gemini 2D anime scene",n,flush=True)
         image_from_gemini(image_client,prompt,p,reference=master)
         images.append(p)
@@ -140,7 +141,7 @@ def main():
         png=WORK/f"caption_{idx:02d}.png"
         mp4=WORK/f"clip_{idx:02d}.mp4"
         synthesize_gemini(text,"Aoede",str(wav))
-        make_frame(images[mapped[idx]],text,speaker,png,idx,end=False)
+        make_frame(images[mapped[idx]],text,speaker,png,idx,end=(idx==len(scenes)-1))
         target=duration(wav)/RATE
         ffmpeg("-loop","1","-framerate",str(FPS),"-i",png,"-i",wav,
                "-filter_complex",f"[1:a]atempo={RATE}[a]",
